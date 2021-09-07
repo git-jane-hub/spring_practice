@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- 외부 패키지에 속한 파일을 사용하려면 자바 코드에서 import 구문을 이용,
+		 스프링 bean container 내부에서는 컴포넌트 스캔을 이용하거나 bean 태그 이용 
+	<bean id="singer" class="org.ict.controller.di.classfile.Singer"></bean>
+	<bean id="stage" class="org.ict.controller.di.classfile.Stage"> -->
+		<!-- Stage는 생성자에서 Singer를 요청하기 때문에, bean 태그 사이에 singer 를넣을 수 있도록 constructor 추가
+		<constructor-arg ref="singer"/>
+	</bean>
+	<bean id="broadcast" class="org.ict.controller.di.classfile.Broadcast">
+		<constructor-arg ref="stage"/>
+	</bean>  -->
+	
+	<!-- component scan 방식, 어노테이션 스캔 '범위'만으로 처리
+		 타겟 클래스들이 모여있는 패키지 명을 아래 base-package에 작성(클래스명 오타없이 적도록 주의)
+		 Singer부터 시작해서 순서대로 component scan -->
+	<context:component-scan base-package="org.ict.controller.di.classfile"/>
+</beans>
