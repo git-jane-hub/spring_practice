@@ -2,6 +2,7 @@ package org.ict.controller;
 
 import java.text.DecimalFormat;
 
+import org.ict.domain.TestVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -120,5 +121,18 @@ public class MvcController {
 	public void voidTest(int something, Model model) {
 		System.out.println("void 컨트롤러는 리턴구문이 필요 없음");
 		model.addAttribute("something", something);
+	}
+	
+	/* 원래 파라미터의 자료형이 int, String 등이였던 경우,
+	 * 단일 자료형이였기 때문에 get, post 방식으로 전달되는 데이터를 자동으로 받아 처리 가능 
+	 * TestVO 내부에는 int age, Stirng name이 있고 TestVO를 아래와 같이 선언하는 것 만으로도
+	 * 내부에 있는 int age, String name을 선언하는 것과 같은 효과가 있음 
+	 * 즉, ?age=(int)&name=(String)이라고 적는 데이터를 받아올 수 있음 
+	 */
+	@RequestMapping(value="/getVO")
+	public String getVO(TestVO vo, Model model) {
+		System.out.println("받아온 객체: " + vo);
+		model.addAttribute("vo", vo);
+		return "testvo/voview";
 	}
 }
