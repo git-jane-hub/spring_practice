@@ -7,9 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="/test/goPageD" method="post">
-		<input type="number" name="d" placeholder="number"/>
-		<input type="submit" value="send"/>
-	</form>
+	<h2>page G</h2>
+	<h6>이름: ${vo.name }</h6>
+	<h6>키: ${vo.height }</h6>
+	<h6>몸무게: ${vo.weight }</h6>
 </body>
 </html>

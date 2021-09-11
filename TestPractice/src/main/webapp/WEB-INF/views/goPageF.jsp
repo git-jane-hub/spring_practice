@@ -7,9 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="/test/goPageD" method="post">
-		<input type="number" name="d" placeholder="number"/>
-		<input type="submit" value="send"/>
-	</form>
+	<h2>page F</h2>
+
 </body>
 </html>
