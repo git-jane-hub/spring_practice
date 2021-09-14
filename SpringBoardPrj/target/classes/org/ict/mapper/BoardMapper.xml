@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.rg/dtd/mybatis-3-mapper.dtd">
+<!-- 위 스키마 작성 후, 어떤 인터페이스의 메서드를 쿼리문과 연결해줄지 아래와 같이 인터페이스 파일부터 mapper태그로 연결 -->
+<mapper namespace="org.ict.mapper.BoardMapper">
+<!-- 
+	위 BoardMapper 인터페이스의 getList 메서드를 호출시 실제로 실행할 쿼리문을 아래와 같이 연결
+	mybatis는 단일 자료와 리스트자료를 구분하지 않기 때문에 resultType 에는 List<> 자료형도 아래와 같이 단일 VO만 작성
+ -->
+	<select id="getList" resultType="org.ict.domain.BoardVO">
+	<!-- 쿼리문 작성시 부등호를 태그 여닫는 표시로 인식할 수 있음
+		CDATA를 이용해 <![CDATA[쿼리문]]>으로 작성 -->
+		<![CDATA[
+			SELECT * FROM board_tbl WHERE bno < 4
+		]]>
+	</select>
+	 
+	<!-- insert는 BoardVO를 파라미터로 받고 있는데, VO 내부 변수를 #{변수명}으로 쿼리문에 전달 가능 -->
+	<insert id="insert">
+		INSERT INTO board_tbl (bno, title, content, writer) VALUES (board_num.nextval, #{title}, #{content}, #{writer})
+	</insert>
+	
+	<!-- resultType은 리스트와 개별 자료형을 구분하지 않기 때문에 BoardVO로 작성 -->
+	<select id="getContent" resultType="org.ict.domain.BoardVO">
+		SELECT content FROM board_tbl WHERE bno = #{bno}
+	</select>
+</mapper>
