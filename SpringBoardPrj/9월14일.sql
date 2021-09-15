@@ -19,8 +19,9 @@ ALTER TABLE board_tbl ADD CONSTRAINT pk_board PRIMARY KEY(bno);
 INSERT INTO board_tbl (bno, title, content, writer) VALUES (board_num.nextval, 'testtitle', 'testcontent', 'testwriter');
 
 SELECT * FROM board_tbl;
-
+SELECT ROWNUM, bno, title FROM board_tbl;
 commit;
 
 SELECT * FROM board_tbl where ROWNUM <= 3 ORDER BY bno;
 SELECT content FROM board_tbl WHERE bno = 1;
+UPDATE board_tbl SET title='UPDATE', content='UPDATE', writer='UPDATE', updatedate=SYSDATE WHERE bno=2;

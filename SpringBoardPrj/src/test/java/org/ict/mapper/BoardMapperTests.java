@@ -20,7 +20,7 @@ public class BoardMapperTests {
 	 */
 	@Autowired
 	private BoardMapper mapper;
-	
+	// 테스트코드 메서드의 리턴자료형은 실행 위주이기 때문에 void - 자료 전달의 목적이 아니기 때문에 리턴값이 필요없음
 	//@Test
 	public void testGetList() {
 		log.info(mapper.getList());
@@ -39,8 +39,26 @@ public class BoardMapperTests {
 		mapper.insert(vo);
 	}
 
-	@Test
+	//@Test
 	public void testGetContent() {
 		mapper.getContent(1L);
+	}
+	
+	//@Test
+	public void testDelete() {
+		mapper.delete(1L);
+	}
+	
+	//@Test
+	public void testUpdate() {
+		// BoardVO를 생성해 변경할 내역을 저장하고 파라미터에 전달
+		BoardVO vo = new BoardVO();
+		
+		vo.setTitle("update");
+		vo.setContent("update");
+		vo.setWriter("update");
+		vo.setBno(3L);
+		
+		mapper.update(vo);
 	}
 }
