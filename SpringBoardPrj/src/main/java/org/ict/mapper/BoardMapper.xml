@@ -12,7 +12,7 @@
 	<!-- 쿼리문 작성시 부등호를 태그 여닫는 표시로 인식할 수 있음
 		CDATA를 이용해 <![CDATA[쿼리문]]>으로 작성 -->
 		<![CDATA[
-			SELECT * FROM board_tbl ORDER BY bno ASC
+			SELECT * FROM board_tbl ORDER BY bno DESC
 		]]>
 	</select>
 	 

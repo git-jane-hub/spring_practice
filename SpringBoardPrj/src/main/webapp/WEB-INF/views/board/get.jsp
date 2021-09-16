@@ -1,4 +1,3 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -9,30 +8,34 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
 </head>
 <body>
-	<h2 class="text text-warning">게시물 목록</h2>
+	<h2 class="text text-success">게시글 상세 페이지</h2>
+	<!-- 테이블 작성하기전에 ${vo }를 작성해서 내용이 잘 전달되어왔는지 확인 -->
 	<table class="table table-hover">
-		<thead>
 			<tr>
-				<th>No</th>
+				<th>글번호</th>
+				<td>${boardvo.bno }</td>
+			</tr>
+			<tr>
 				<th>글제목</th>
-				<th>본문</th>
-				<th>글쓴이</th>
-				<th>등록일</th>
-				<th>수정일</th>
+				<td>${boardvo.title }</td>
 			</tr>
-		</thead>
-		<tbody>
-		<c:forEach items="${list }" var="list">
 			<tr>
-				<td>${list.bno }</td>
-				<td><a href="/board/get?bno=${list.bno }">${list.title }</a></td>
-				<td>${list.content }</td>
-				<td>${list.writer }</td>
-				<td>${list.regdate }</td>
-				<td>${list.updatedate }</td>
+				<th>본문</th>
+				<td>${boardvo.content }</td>
 			</tr>
-		</c:forEach>
-		</tbody>
+			<tr>
+				<th>글쓴이</th>
+				<td>${boardvo.writer }</td>
+			</tr>
+			<tr>
+				<th>작성일</th>
+				<td>${boardvo.regdate }</td>
+			</tr>
+			<tr>
+				<th>수정일</th>
+				<td>${boardvo.updatedate }</td>
+			</tr>
 	</table>
+	<a href="/board/list">리스트로 이동</a>
 </body>
 </html>
