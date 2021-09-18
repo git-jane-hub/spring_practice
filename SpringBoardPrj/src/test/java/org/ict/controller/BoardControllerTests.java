@@ -68,7 +68,7 @@ public class BoardControllerTests {
 	}
 	
 	// .param("bno", "글번호_숫자")로 작성시 해당글을 불러오는 로직
-	@Test
+	//@Test
 	public void testGet() throws Exception{
 		log.info(mockMvc.perform(MockMvcRequestBuilders.get("/board/get")	// PathVariable을 사용한다면 "/board/get/8" 로 작성 
 				.param("bno", "3"))
@@ -76,4 +76,37 @@ public class BoardControllerTests {
 				.getModelAndView()
 				.getModelMap());
 	}
+	
+	//@Test
+	public void testRemove() throws Exception{
+		log.info(mockMvc.perform(MockMvcRequestBuilders.post("/board/remove")
+				.param("bno", "3"))
+				.andReturn()
+				.getModelAndView()
+				.getModelMap());
+	}
+	
+	@Test
+	public void testModify() throws Exception{
+		/* 실제로 실행된 쿼리문과 비교해 데이터를 전달
+		 * 수정 쿼리문에서 WHERE 조건절의 bno와
+		 * title, content, writer 4개의 변수가 필요하므로
+		 * .param()의 데이터도 4개를 전달
+		 */
+		log.info(mockMvc.perform(MockMvcRequestBuilders.post("/board/modify")
+				.param("bno", "7")
+				.param("title", "testmodify")
+				.param("content", "testmodify")
+				.param("writer", "testmodify"))
+				.andReturn()
+				.getModelAndView()
+				.getModelMap());
+	}
+	
+	
+	
+	
+	
+	
+	
 }

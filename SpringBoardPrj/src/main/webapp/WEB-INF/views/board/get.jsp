@@ -6,6 +6,13 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+<script>
+	const modi = "${modi}";
+	const bno = "${bno}"
+	if(modi === "modi"){
+		alert(bno + "번 게시글이 수정되었습니다.");
+	}
+</script>
 </head>
 <body>
 	<h2 class="text text-success">게시글 상세 페이지</h2>
@@ -20,7 +27,7 @@
 				<td>${boardvo.title }</td>
 			</tr>
 			<tr>
-				<th>본문</th>
+				<th>글본문</th>
 				<td>${boardvo.content }</td>
 			</tr>
 			<tr>
@@ -36,6 +43,14 @@
 				<td>${boardvo.updatedate }</td>
 			</tr>
 	</table>
-	<a href="/board/list">리스트로 이동</a>
+	<a href="/board/list"><button>글목록</button></a>
+	<form action="/board/boardmodify" method="post">
+		<input type="hidden" name="bno" value="${boardvo.bno }"/>
+		<input type="submit" value="글수정"/>
+	</form>
+	<form action="/board/remove" method="post">
+		<input type="hidden" name="bno" value="${boardvo.bno }"/>
+		<input type="submit" value="글삭제"/>
+	</form>
 </body>
 </html>

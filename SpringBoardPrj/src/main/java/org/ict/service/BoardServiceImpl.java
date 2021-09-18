@@ -24,7 +24,8 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void register(BoardVO vo) {
 		log.info("등록 작업 실행");
-		mapper.insert(vo);
+		//mapper.insert(vo);
+		mapper.insertSelectKey(vo);
 	}
 
 	// 특정 게시글 하나만 가져오는 로직이기 때문에 리턴자료형이 BoardVO
@@ -47,12 +48,12 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<BoardVO> getList() {
+	public List<BoardVO> getList(String keyword) {
 		/* List<BoardVO> boardList = mapper.getList();
 		 * return boardList;
 		 */
 		log.info("전체 목록 조회");
-		return mapper.getList();
+		return mapper.getList(keyword);
 	}
 	
 }

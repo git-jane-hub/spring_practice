@@ -18,9 +18,9 @@ ALTER TABLE board_tbl ADD CONSTRAINT pk_board PRIMARY KEY(bno);
 
 INSERT INTO board_tbl (bno, title, content, writer) VALUES (board_num.nextval, 'testtitle', 'testcontent', 'testwriter');
 
-SELECT * FROM board_tbl;
+SELECT * FROM board_tbl ORDER BY bno DESC;
 SELECT ROWNUM, bno, title FROM board_tbl;
-commit;
+commit; /* 실행문 실행하고 커밋해야 반영됨 */
 
 SELECT * FROM board_tbl where ROWNUM <= 3 ORDER BY bno;
 SELECT content FROM board_tbl WHERE bno = 1;

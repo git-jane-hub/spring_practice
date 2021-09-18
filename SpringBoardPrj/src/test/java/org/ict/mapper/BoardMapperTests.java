@@ -23,7 +23,7 @@ public class BoardMapperTests {
 	// 테스트코드 메서드의 리턴자료형은 실행 위주이기 때문에 void - 자료 전달의 목적이 아니기 때문에 리턴값이 필요없음
 	//@Test
 	public void testGetList() {
-		log.info(mapper.getList());
+		log.info(mapper.getList("test"));
 	}
 	
 	//@Test

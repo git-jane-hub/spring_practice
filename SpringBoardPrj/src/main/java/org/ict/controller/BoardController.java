@@ -1,5 +1,5 @@
 package org.ict.controller;
-
+// test순서: 먼저 controller에 작성 - 해당 주소로 진입하면 로직 실행되는지 테스트 - jsp 파일 작성
 import java.util.List;
 
 import org.ict.domain.BoardVO;
@@ -27,12 +27,16 @@ public class BoardController {
 	// 리스트 목록을 보여주는 로직 
 	// Get방식으로만 주소 연결
 	@GetMapping("/list")
-	public void list(Model model) {
+	public void list(Model model, String keyword) {
+		if(keyword == null) {
+			keyword = "";
+		}
 		log.info("list로 접속");
 		// 전체 글 정보를 얻어옴
-		List<BoardVO> boardList = service.getList();
+		List<BoardVO> boardList = service.getList(keyword);
 		// view 파일에 list라는 이름으로 넘겨줌
 		model.addAttribute("list", boardList);
+		model.addAttribute("keyword", keyword);
 	}
 	
 	// 글을 작성하고 리스트 목록으로 보내주는 로직 
@@ -54,6 +58,7 @@ public class BoardController {
 		 * 따라서 rttr.addFlashAttribute를 사용해서 정보를 함께 전달
 		 */
 		rttr.addFlashAttribute("result", vo.getBno());
+		log.info("받아온 bno값: " + vo.getBno());
 		// views 폴더 하위 board 폴더의 list.jsp 출력
 		// redirect로 이동시에는 "redirect:파일명"
 		return "redirect:/board/list";
@@ -82,12 +87,42 @@ public class BoardController {
 		return "/board/get";
 	}
 	
+	/* get방식으로 작성하게되면 특정 사용자가 url을 통해 다른 사용자들의 글을 삭제 가능하게되므로
+	 * 삭제는 삭제버튼을 통해서만 삭제할 수 있도록 post 방식 접근만 허용
+	 * bno를 받아 삭제하고 삭제가 완료되면 success라는 문자열을 .jsp파일로 전달
+	 */
+	/* post 방식으로 작성하면 remove하기 위해서는 form 태그내부를 통해서만 가능(예: 삭제버튼)
+	 * 위 get 방식처럼 if문으로 검증 로직을 작성할 필요가 적음
+	 */
+	@PostMapping("/remove")
+	public String remove(Long bno, RedirectAttributes rttr) {
+		log.info("삭제 진행: " + bno);
+		service.remove(bno);
+		rttr.addFlashAttribute("del", "del");
+		rttr.addFlashAttribute("bno", bno);
+		return "redirect:/board/list";
+	}
 	
+	// 수정 폼으로 이동하는 로직 - 이전에 작성되었던 게시글을 불러와야함(파라미터를 통해 글번호를 가지고있음)
+	@PostMapping("/boardmodify")
+	public String modifyForm(Long bno, Model model) {
+		BoardVO vo = service.get(bno);
+		log.info(vo);
+		model.addAttribute("vo", vo);
+		return "/board/modify";
+	}
 	
-	
-	
-	
-	
+	// 수정 폼에서 변경을 완료하면 반영하는 로직 - modify.jsp에서 넘겨받은 정보를 사용해 파라미터에 작성
+	// 변경내역을 확인할 수 있도록 상세페이지로 이동
+	@PostMapping("/modify")
+	public String modify(BoardVO vo, RedirectAttributes rttr) {
+		log.info("modify.jsp 에서 넘겨받은 정보: " + vo);
+		service.modify(vo);
+		rttr.addFlashAttribute("modi", "modi");
+		rttr.addFlashAttribute("bno", vo.getBno());
+		// 상세페이지는 bno가 파라미터로 주어져야함
+		return "redirect:/board/get?bno=" + vo.getBno();
+	}
 	
 	
 	

@@ -51,7 +51,7 @@ public class BoardServiceTests {
 		vo.getRegdate();
 		vo.getUpdatedate();
 		*/
-		service.getList();
+		service.getList("qwe");
 	}
 	
 	//@Test
