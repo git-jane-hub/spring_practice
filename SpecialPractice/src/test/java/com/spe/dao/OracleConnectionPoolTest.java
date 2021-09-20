@@ -23,7 +23,7 @@ public class OracleConnectionPoolTest {
 	@Autowired
 	private DataSource dataSource;
 	
-	@Test
+	//@Test
 	public void testConnection() {
 		try(Connection con = dataSource.getConnection()){
 			log.info(con);

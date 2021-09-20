@@ -29,6 +29,15 @@ public class BoardMapperTest {
 		mapper.insert(vo);
 	}
 	
+	@Test
+	public void testInsertSelectKey() {
+		BoardVO vo = new BoardVO();
+		vo.setTitle("testSelectKey");
+		vo.setContent("testSelectKey");
+		vo.setWriter("testSelectKey");
+		mapper.insertSelectKey(vo);
+	}
+	
 	//@Test
 	public void testSelectList() {
 		mapper.selectList();
@@ -49,7 +58,7 @@ public class BoardMapperTest {
 		mapper.update(vo);
 	}
 	
-	@Test
+	//@Test
 	public void testDelete() {
 		mapper.delete(26L);
 	}

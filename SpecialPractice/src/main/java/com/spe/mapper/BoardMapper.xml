@@ -6,6 +6,12 @@
 	<insert id="insert">
 		INSERT INTO spe_tbl (bno, title, content, writer) VALUES (spe_num.nextval, #{title}, #{content}, #{writer}) 
 	</insert>
+	<insert id="insertSelectKey">
+		<selectKey keyProperty="bno" resultType="long" order="BEFORE">
+			SELECT spe_num.nextval FROM DUAL
+		</selectKey>
+		INSERT INTO spe_tbl (bno, title, content, writer) VALUES (#{bno}, #{title}, #{content}, #{writer})
+	</insert>
 	<select id="selectList" resultType="com.spe.domain.BoardVO">
 		SELECT * FROM spe_tbl
 	</select>

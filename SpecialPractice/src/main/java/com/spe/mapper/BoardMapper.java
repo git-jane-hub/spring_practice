@@ -8,6 +8,8 @@ public interface BoardMapper {
 	// 파라미터 값으로 BoardVO
 	public void insert(BoardVO vo);
 	
+	public void insertSelectKey(BoardVO vo);
+	
 	public List<BoardVO> selectList();
 	
 	public BoardVO selectDetail(Long bno);
