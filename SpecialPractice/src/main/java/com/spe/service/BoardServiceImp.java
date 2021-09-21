@@ -22,7 +22,7 @@ public class BoardServiceImp implements BoardService{
 	@Override
 	public void register(BoardVO vo) {
 		log.info("게시글 등록 진행완료");
-		mapper.insert(vo);
+		mapper.insertSelectKey(vo);
 	}
 
 	@Override

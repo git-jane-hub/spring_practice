@@ -50,7 +50,7 @@ public class BoardControllerTests {
 		);
 	}
 	
-	// /board/register 주소로 파라미터 값을 post로 넘겼을떼 작성된 글이 insert되는지 test
+	// /board/register 주소로 파라미터 값을 post로 넘겼을때 작성된 글이 insert되는지 test
 	//@Test
 	public void testRegister() throws Exception{
 		// post 방식으로 파라미터 3개를 주소에 전달해주는 코드 - 결과 메세지는 문자열 resultPage에 저장하고 

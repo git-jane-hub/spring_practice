@@ -13,7 +13,7 @@
 		INSERT INTO spe_tbl (bno, title, content, writer) VALUES (#{bno}, #{title}, #{content}, #{writer})
 	</insert>
 	<select id="selectList" resultType="com.spe.domain.BoardVO">
-		SELECT * FROM spe_tbl
+		SELECT * FROM spe_tbl ORDER BY bno DESC
 	</select>
 	<select id="selectDetail" resultType="com.spe.domain.BoardVO">
 		SELECT * FROM spe_tbl WHERE bno=#{bno}
