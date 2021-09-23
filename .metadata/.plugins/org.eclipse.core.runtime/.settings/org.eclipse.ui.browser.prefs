@@ -1,2 +1,4 @@
+browser-choice=1
+browsers=<?xml version\="1.0" encoding\="UTF-8"?>\n<web-browsers current\="0">\n<system/>\n</web-browsers>
 eclipse.preferences.version=1
-internalWebBrowserHistory=http\://localhost\:8181/WEB-INF/classes/com/spe/controller/HomeController.java|*|file\:/C\:/JANE/spring_workspace/.metadata/.plugins/org.springsource.ide.eclipse.commons.gettingstarted/dashboard/1631586843911/index.html|*|file\:/C\:/eclipse/eclipse_202009/eclipse/../../../Users/ict03-03/.p2/pool/plugins/org.springsource.ide.eclipse.commons.gettingstarted_3.9.18.202108161150-CI-B559/resources/welcome/index.html|*|
+internalWebBrowserHistory=http\://localhost\:8181/main|*|http\://localhost\:8181/board/list|*|http\://localhost\:8181/|*|http\://localhost\:8181/WEB-INF/classes/com/spe/controller/HomeController.java|*|file\:/C\:/JANE/spring_workspace/.metadata/.plugins/org.springsource.ide.eclipse.commons.gettingstarted/dashboard/1631586843911/index.html|*|file\:/C\:/eclipse/eclipse_202009/eclipse/../../../Users/ict03-03/.p2/pool/plugins/org.springsource.ide.eclipse.commons.gettingstarted_3.9.18.202108161150-CI-B559/resources/welcome/index.html|*|
