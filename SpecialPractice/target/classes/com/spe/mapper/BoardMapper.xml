@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-.mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.rg/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spe.mapper.BoardMapper">
+	<!-- #{} 작성 시 홑따옴표 작성 안함 -->
+	<insert id="insert">
+		INSERT INTO spe_tbl (bno, title, content, writer) VALUES (spe_num.nextval, #{title}, #{content}, #{writer}) 
+	</insert>
+	<insert id="insertSelectKey">
+		<selectKey keyProperty="bno" resultType="long" order="BEFORE">
+			SELECT spe_num.nextval FROM DUAL
+		</selectKey>
+		INSERT INTO spe_tbl (bno, title, content, writer) VALUES (#{bno}, #{title}, #{content}, #{writer})
+	</insert>
+	<select id="selectList" resultType="com.spe.domain.BoardVO">
+		SELECT * FROM spe_tbl ORDER BY bno DESC
+	</select>
+	<select id="selectDetail" resultType="com.spe.domain.BoardVO">
+		SELECT * FROM spe_tbl WHERE bno=#{bno}
+	</select>
+	<update id="update">
+		UPDATE spe_tbl SET title=#{title}, content=#{content}, writer=#{writer}, updatedate=sysdate WHERE bno=#{bno}
+	</update>
+	<delete id="delete">
+		DELETE FROM spe_tbl WHERE bno=#{bno}
+	</delete>
+</mapper>
