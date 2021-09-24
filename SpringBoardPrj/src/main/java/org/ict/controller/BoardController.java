@@ -58,6 +58,7 @@ public class BoardController {
 		 * 따라서 rttr.addFlashAttribute를 사용해서 정보를 함께 전달
 		 */
 		rttr.addFlashAttribute("result", vo.getBno());
+		rttr.addFlashAttribute("success", "register");
 		log.info("받아온 bno값: " + vo.getBno());
 		// views 폴더 하위 board 폴더의 list.jsp 출력
 		// redirect로 이동시에는 "redirect:파일명"
@@ -98,7 +99,7 @@ public class BoardController {
 	public String remove(Long bno, RedirectAttributes rttr) {
 		log.info("삭제 진행: " + bno);
 		service.remove(bno);
-		rttr.addFlashAttribute("del", "del");
+		rttr.addFlashAttribute("success", "remove");
 		rttr.addFlashAttribute("bno", bno);
 		return "redirect:/board/list";
 	}

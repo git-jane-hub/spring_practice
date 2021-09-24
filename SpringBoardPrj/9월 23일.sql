@@ -25,4 +25,9 @@ SELECT ROWNUM, bt.* FROM (SELECT /*+ INDEX_DESC(board_tbl pk_board)*/ ROWNUM rn,
 
 SELECT /*+ INDEX_DESC(board_tbl pk_board)*/ ROWNUM rn, board_tbl.* FROM board_tbl WHERE ROWNUM <= 20;
 
+/*복습*/
+SELECT * FROM (SELECT ROWNUM AS rn, bt.* FROM (SELECT * FROM board_tbl ORDER BY bno DESC) bt WHERE ROWNUM <= 10) WHERE rn > 0;
+SELECT * FROM (SELECT ROWNUM AS rn, bt.* FROM (SELECT * FROM board_tbl ORDER BY bno DESC) bt WHERE ROWNUM <= 10+10) WHERE rn > 10;
+SELECT * FROM board_tbl ORDER BY bno DESC;
+
 COMMIT;
