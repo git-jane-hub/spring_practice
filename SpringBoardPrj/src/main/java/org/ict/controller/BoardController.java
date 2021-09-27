@@ -3,6 +3,7 @@ package org.ict.controller;
 import java.util.List;
 
 import org.ict.domain.BoardVO;
+import org.ict.domain.Criteria;
 import org.ict.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,7 +24,7 @@ public class BoardController {
 	// controller는 service 호출 - service는 mapper를 호출
 	@Autowired
 	private BoardService service;
-	
+	/*
 	// 리스트 목록을 보여주는 로직 
 	// Get방식으로만 주소 연결
 	@GetMapping("/list")
@@ -37,6 +38,15 @@ public class BoardController {
 		// view 파일에 list라는 이름으로 넘겨줌
 		model.addAttribute("list", boardList);
 		model.addAttribute("keyword", keyword);
+	}
+	*/
+	
+	// 페이징 처리가 가능한 list 메서드를 새로 생성
+	@GetMapping("/list")
+	public void list(Criteria cri, Model model) {
+		List<BoardVO> boardList = service.getPagingList(cri);
+		model.addAttribute("list", boardList);
+		// 메서드 이름과 url주소명이 같은 void 타입의 메서드는 board/list.jsp로 자동연결됨
 	}
 	
 	// 글을 작성하고 리스트 목록으로 보내주는 로직 

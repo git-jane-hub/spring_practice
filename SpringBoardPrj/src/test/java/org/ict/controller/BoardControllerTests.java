@@ -50,6 +50,20 @@ public class BoardControllerTests {
 		);
 	}
 	
+	@Test
+	public void testListPaging() throws Exception{
+		log.info(
+				mockMvc.perform(
+						MockMvcRequestBuilders.get("/board/list")
+						.param("pageNum", "15")
+						.param("amount", "10")
+				)
+				.andReturn()
+				.getModelAndView()
+				.getViewName()
+		);
+	}
+	
 	// /board/register 주소로 파라미터 값을 post로 넘겼을때 작성된 글이 insert되는지 test
 	//@Test
 	public void testRegister() throws Exception{
@@ -86,7 +100,7 @@ public class BoardControllerTests {
 				.getModelMap());
 	}
 	
-	@Test
+	//@Test
 	public void testModify() throws Exception{
 		/* 실제로 실행된 쿼리문과 비교해 데이터를 전달
 		 * 수정 쿼리문에서 WHERE 조건절의 bno와

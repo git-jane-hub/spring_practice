@@ -18,6 +18,17 @@
 			SELECT * FROM board_tbl WHERE title LIKE '%'||#{keyword}||'%' ORDER BY bno DESC
 		]]>
 	</select>
+	
+	<select id="getPagingList" resultType="org.ict.domain.BoardVO">
+		<![CDATA[
+			SELECT bno, titile, content, writer, regdate, updatedate FROM
+			(SELECT 
+			/*+ INDEX_DESC(board_tbl pk_board) */
+			rownum rn, board_tbl.* FROM board_tbl 
+			WHERE rownum <= #{pageNum} * #{amount}) tbl
+			WHERE rn > (#{pageNum} - 1) * #{amount}
+		]]>
+	</select>
 	 
 	<!-- insert는 BoardVO를 파라미터로 받고 있는데, VO 내부 변수를 #{변수명}으로 쿼리문에 전달 가능 -->
 	<insert id="insert">

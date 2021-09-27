@@ -3,6 +3,7 @@ package org.ict.mapper;
 import static org.junit.Assert.fail;
 
 import org.ict.domain.BoardVO;
+import org.ict.domain.Criteria;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,12 @@ public class BoardMapperTests {
 	//@Test
 	public void testGetList() {
 		log.info(mapper.getList("test"));
+	}
+	
+	@Test
+	public void testGetPagingList() {
+		Criteria cri = new Criteria(15, 10);
+		mapper.getListPaging(cri);
 	}
 	
 	//@Test
