@@ -19,9 +19,9 @@
 		]]>
 	</select>
 	
-	<select id="getPagingList" resultType="org.ict.domain.BoardVO">
+	<select id="getListPaging" resultType="org.ict.domain.BoardVO">
 		<![CDATA[
-			SELECT bno, titile, content, writer, regdate, updatedate FROM
+			SELECT bno, title, content, writer, regdate, updatedate FROM
 			(SELECT 
 			/*+ INDEX_DESC(board_tbl pk_board) */
 			rownum rn, board_tbl.* FROM board_tbl 
@@ -30,6 +30,10 @@
 		]]>
 	</select>
 	 
+	<select id="getCountList" resultType="Int">
+		SELECT count(*) FROM board_tbl
+	</select>
+	
 	<!-- insert는 BoardVO를 파라미터로 받고 있는데, VO 내부 변수를 #{변수명}으로 쿼리문에 전달 가능 -->
 	<insert id="insert">
 		INSERT INTO board_tbl (bno, title, content, writer) VALUES (board_num.nextval, #{title}, #{content}, #{writer})

@@ -29,5 +29,8 @@ public interface BoardService {
 	public List<BoardVO> getList(String keyword);
 	
 	// 전체 글 목록(페이징 처리)
-	public List<BoardVO> getPagingList(Criteria cri);
+	public List<BoardVO> getListPaging(Criteria cri);
+	
+	// 전체 글 개수 가져오기
+	public int getCountList();
 }

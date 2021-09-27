@@ -38,8 +38,47 @@
 		</c:forEach>
 		</tbody>
 	</table>
+	<!-- pagination
+		버튼을 상황에 맞게 출력하기 위해 c태그 라이브러리의 조건식을 활용 -->
+	<nav aria-label="...">
+	  <ul class="pagination justify-content-center">
+	  	<!-- 이전 페이지 버튼 - btnMaker의 prev가 true 일때만 출력 -->
+	  	<c:if test="${btnMaker.prev }">
+		    <li class="page-item">
+		    <!-- 이전 페이지 버튼을 누르면 현재 보고있는 페이지의 시작페이지보다 하나더 작게 -->
+		      <a class="page-link" href="/board/list?pageNum=${btnMaker.startPage - 1 }">Previous</a>
+		    </li>
+	    </c:if>
+	    <!-- 번호 버튼 -->
+	    <c:forEach var="pageNum" begin="${btnMaker.startPage }" end="${btnMaker.endPage }">
+	    	<!-- 현재 페이지는 active로 표시 -->
+		 <!-- <c:if test="${btnMaker.cri.pageNum == pageNum }">
+		    <li class="page-item active" aria-current="page">
+		    	<a class="page-link" href="/board/list?pageNum=${pageNum }">${pageNum }</a>
+		    </li>
+		    </c:if>
+		    <c:if test="${btnMaker.cri.pageNum != pageNum }">
+		    </c:if>
+		    <li class="page-item">
+		      <a class="page-link" href="/board/list?pageNum=${pageNum }">${pageNum }</a>
+		    </li>-->
+		    <!-- c:if 사용하지 않고 class 속성 내부에 삼항연산자를 사용해 작성 -->
+		    <li class="page-item ${btnMaker.cri.pageNum == pageNum ? 'active' : '' }">
+		      <a class="page-link" href="/board/list?pageNum=${pageNum }">${pageNum }</a>
+		    </li>
+		    
+	   </c:forEach>
+	    <!-- 다음 페이지 버튼 -->
+	    <c:if test="${btnMaker.next }">
+		    <li class="page-item">
+		      <a class="page-link" href="/board/list?pageNum=${btnMaker.endPage + 1 }">Next</a>
+		    </li>
+	    </c:if>
+	  </ul>
+	</nav>
 	<a href="/board/register"><button>글작성</button></a>
-	
+	<!-- 디버깅 -->
+	${btnMaker }
 	<div class="modal" id="myModal" tabindex="-1">
 	  <div class="modal-dialog">
 	    <div class="modal-content">

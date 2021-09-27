@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.ict.domain.BoardVO;
 import org.ict.domain.Criteria;
+import org.ict.domain.PageDTO;
 import org.ict.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,7 +45,16 @@ public class BoardController {
 	// 페이징 처리가 가능한 list 메서드를 새로 생성
 	@GetMapping("/list")
 	public void list(Criteria cri, Model model) {
-		List<BoardVO> boardList = service.getPagingList(cri);
+		List<BoardVO> boardList = service.getListPaging(cri);
+		/* 페이지 아래 들어가는 페이지 버튼 관련 정보
+		 * 우선 글 개수를 253개를 임의로 지정하고 버튼 개수는 10개로 고정
+		 */
+		PageDTO btnMaker = new PageDTO(cri, service.getCountList(), 10);
+		/* 임의로 지정한 숫자대신 mapper에서 전체 글 개수를 가져오는 로직 추가
+		 * 글 목록을 조회시마다 DB에서 총 글 개수를 알 수 있도록 
+		 */
+		model.addAttribute("btnMaker", btnMaker);
+		log.info("넘길 btnMaker값: " + btnMaker);
 		model.addAttribute("list", boardList);
 		// 메서드 이름과 url주소명이 같은 void 타입의 메서드는 board/list.jsp로 자동연결됨
 	}
@@ -67,7 +77,7 @@ public class BoardController {
 		 * model.addAttribute()를 작성하고 redirect이동시에는 데이터가 소실됨
 		 * 따라서 rttr.addFlashAttribute를 사용해서 정보를 함께 전달
 		 */
-		rttr.addFlashAttribute("result", vo.getBno());
+		rttr.addFlashAttribute("bno", vo.getBno());
 		rttr.addFlashAttribute("success", "register");
 		log.info("받아온 bno값: " + vo.getBno());
 		// views 폴더 하위 board 폴더의 list.jsp 출력
@@ -134,13 +144,4 @@ public class BoardController {
 		// 상세페이지는 bno가 파라미터로 주어져야함
 		return "redirect:/board/get?bno=" + vo.getBno();
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

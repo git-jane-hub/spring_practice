@@ -58,11 +58,16 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<BoardVO> getPagingList(Criteria cri) {
+	public List<BoardVO> getListPaging(Criteria cri) {
 		/* cri의 정보(pageNum, amount)를 받아오면 해당 정보를 이용해 mapper의 getPagingList를 호출
 		 * 나온 결과물을 리턴해 컨트롤러에서 사용할 수 있도록 처리
 		 */
 		return mapper.getListPaging(cri);
+	}
+
+	@Override
+	public int getCountList() {
+		return mapper.getCountList();
 	}
 	
 }
