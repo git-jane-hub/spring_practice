@@ -5,6 +5,7 @@ import java.util.List;
 import org.ict.domain.BoardVO;
 import org.ict.domain.Criteria;
 import org.ict.domain.PageDTO;
+import org.ict.domain.SearchCriteria;
 import org.ict.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,14 +45,17 @@ public class BoardController {
 	
 	// 페이징 처리가 가능한 list 메서드를 새로 생성
 	@GetMapping("/list")
-	public void list(Criteria cri, Model model) {
+	public void list(SearchCriteria cri, Model model) {
 		List<BoardVO> boardList = service.getListPaging(cri);
 		/* 페이지 아래 들어가는 페이지 버튼 관련 정보
 		 * 우선 글 개수를 253개를 임의로 지정하고 버튼 개수는 10개로 고정
 		 */
-		PageDTO btnMaker = new PageDTO(cri, service.getCountList(), 10);
 		/* 임의로 지정한 숫자대신 mapper에서 전체 글 개수를 가져오는 로직 추가
 		 * 글 목록을 조회시마다 DB에서 총 글 개수를 알 수 있도록 
+		 */
+		PageDTO btnMaker = new PageDTO(cri, service.getCountList(cri), 10);
+		/* btnMaker 정보를 전달하면 동시에 SearchCriteria도 전달됨
+		 * btnMaker의 내부 멤버변수로 SearchCriteria가 있기 때문에 호출이 2단계로 이루어짐 
 		 */
 		model.addAttribute("btnMaker", btnMaker);
 		log.info("넘길 btnMaker값: " + btnMaker);

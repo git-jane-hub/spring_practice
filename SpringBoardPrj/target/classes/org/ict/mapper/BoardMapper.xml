@@ -3,6 +3,37 @@
 "http://mybatis.rg/dtd/mybatis-3-mapper.dtd">
 <!-- 위 스키마 작성 후, 어떤 인터페이스의 메서드를 쿼리문과 연결해줄지 아래와 같이 인터페이스 파일부터 mapper태그로 연결 -->
 <mapper namespace="org.ict.mapper.BoardMapper">
+<sql id="search">
+	<if test="searchType != null">
+		<if test="searchType == 't'.toString()">
+			(title LIKE '%'||#{keyword}||'%') AND
+		</if>
+		<if test="searchType == 'c'.toString()">
+			(content LIKE '%'||#{keyword}||'%') AND
+		</if>
+		<if test="searchType == 'w'.toString()">
+			(writer LIKE '%'||#{keyword}||'%') AND
+		</if>
+		<!-- 두개 이상의 조건절은 괄호로 묶어서 작성 -->
+		<if test="searchType == 'tc'.toString()">
+			((title LIKE '%'||#{keyword}||'%') 
+			OR 
+			content LIKE ('%'||#{keyword}||'%')) AND
+		</if>
+		<if test="searchType == 'cw'.toString()">
+			((content LIKE '%'||#{keyword}||'%') 
+			OR 
+			(writer LIKE '%'||#{keyword}||'%')) AND
+		</if>
+		<if test="searchType == 'tcw'.toString()">
+			((title LIKE '%'||#{keyword}||'%') 
+			OR 
+			(content LIKE '%'||#{keyword}||'%') 
+			OR 
+			(writer LIKE '%'||#{keyword}||'%')) AND
+		</if>
+	</if>
+</sql>
 <!--
 	위 BoardMapper 인터페이스의 getList 메서드를 호출시 실제로 실행할 쿼리문을 아래와 같이 연결
 	mybatis는 단일 자료와 리스트자료를 구분하지 않기 때문에 resultType 에는 List<> 자료형도 아래와 같이 단일 VO만 작성
@@ -20,18 +51,31 @@
 	</select>
 	
 	<select id="getListPaging" resultType="org.ict.domain.BoardVO">
+		<!-- 수정을 위해 조건에 구애받지 않는 공통쿼리와 조건별로 추가해야하는 조건별 쿼리를 따로 지정 -->
 		<![CDATA[
 			SELECT bno, title, content, writer, regdate, updatedate FROM
 			(SELECT 
 			/*+ INDEX_DESC(board_tbl pk_board) */
 			rownum rn, board_tbl.* FROM board_tbl 
-			WHERE rownum <= #{pageNum} * #{amount}) tbl
+			WHERE 
+		]]>
+		<!-- 조건별 쿼리 삽입, 하나의 쿼리였던 쿼리문 중간에 삽입
+		전달받은 searchType이 null인지 아닌지 여부 확인 (null이라면 조건문이 들어올 필요가 없음)
+		serachType이 null이 아닐 경우 어떤 키워드가 전달되어왔는지 확인 -->
+		<include refid="search"></include>
+		<!-- MySQL의 Limit과 같은 역할을 하는 부분 -->
+		<![CDATA[	
+			rownum <= #{pageNum} * #{amount}) tbl
 			WHERE rn > (#{pageNum} - 1) * #{amount}
 		]]>
 	</select>
 	 
 	<select id="getCountList" resultType="Int">
-		SELECT count(*) FROM board_tbl
+		SELECT count(*) FROM board_tbl WHERE
+		<!-- 검색조건에 맞는 글개수만 가져올 수 있도록 수정 
+		내부에서 필요한 변수인 searchType을 전달 받아야하므로 컨트롤러, 서비스, 매퍼도 수정 -->
+		<include refid="search"></include>
+		bno > 0
 	</select>
 	
 	<!-- insert는 BoardVO를 파라미터로 받고 있는데, VO 내부 변수를 #{변수명}으로 쿼리문에 전달 가능 -->

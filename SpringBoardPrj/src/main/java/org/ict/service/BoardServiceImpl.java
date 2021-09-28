@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.ict.domain.BoardVO;
 import org.ict.domain.Criteria;
+import org.ict.domain.SearchCriteria;
 import org.ict.mapper.BoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,7 +59,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<BoardVO> getListPaging(Criteria cri) {
+	public List<BoardVO> getListPaging(SearchCriteria cri) {
 		/* cri의 정보(pageNum, amount)를 받아오면 해당 정보를 이용해 mapper의 getPagingList를 호출
 		 * 나온 결과물을 리턴해 컨트롤러에서 사용할 수 있도록 처리
 		 */
@@ -66,8 +67,10 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int getCountList() {
-		return mapper.getCountList();
+	public int getCountList(SearchCriteria cri) {
+		return mapper.getCountList(cri);
 	}
+
+
 	
 }

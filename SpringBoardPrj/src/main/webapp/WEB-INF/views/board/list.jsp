@@ -9,9 +9,42 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h2 class="text text-warning">게시물 목록</h2>
+	<h2 class="text text-warning"><a href="/board/list" style="text-decoration:none">게시물 목록</a></h2>
+	<!-- 검색창 -->
 	<form>
-		<input type="text" name="keyword" value="${keyword }" placeholder="검색어를 입력하세요"/>
+		<select name="searchType">
+			<!-- c:out의 value 속성에는 출력되는 값이 들어감 -->
+			<option value="n"
+			<c:out value="${btnMaker.cri.searchType == null ? 'selected' : '' }"/>>
+			-
+			</option>
+			<option value="t"
+			<c:out value="${btnMaker.cri.searchType eq 't' ? 'selected' : '' }"/>>
+			제목
+			</option>
+			<option value="c"
+			<c:out value="${btnMaker.cri.searchType eq 'c'  ? 'selected' : '' }"/>>
+			본문
+			</option>
+			<option value="w"
+			<c:out value="${btnMaker.cri.searchType eq 'w' ? 'selected' : '' }"/>>
+			글쓴이
+			</option>
+			<option value="tc"
+			<c:out value="${btnMaker.cri.searchType eq 'tc' ? 'selected' : '' }"/>>
+			제목 + 본문
+			</option>
+			<option value="cw"
+			<c:out value="${btnMaker.cri.searchType eq 'cw' ? 'selected' : '' }"/>>
+			본문 + 글쓴이
+			</option>
+			<option value="tcw"
+			<c:out value="${btnMaker.cri.searchType eq 'tcw' ? 'selected' : '' }"/>>
+			제목 + 본문 + 글쓴이
+			</option>
+			
+		</select>
+		<input type="text" name="keyword" value="${btnMaker.cri.keyword }" placeholder="검색어를 입력하세요"/>
 		<input type="submit" value="search"/>
 	</form>
 	<table class="table table-hover">
@@ -29,7 +62,7 @@
 		<c:forEach items="${list }" var="list">
 			<tr>
 				<td>${list.bno }</td>
-				<td><a href="/board/get?bno=${list.bno }">${list.title }</a></td>
+				<td><a href="/board/get?bno=${list.bno }&pageNum=${btnMaker.startPage - 1 }&searchType=${btnMaker.cri.searchType}&keyword=${btnMaker.cri.keyword}">${list.title }</a></td>
 				<td>${list.content }</td>
 				<td>${list.writer }</td>
 				<td>${list.regdate }</td>
@@ -38,7 +71,7 @@
 		</c:forEach>
 		</tbody>
 	</table>
-	<!-- pagination
+	<!-- 페이징 처리
 		버튼을 상황에 맞게 출력하기 위해 c태그 라이브러리의 조건식을 활용 -->
 	<nav aria-label="...">
 	  <ul class="pagination justify-content-center">
@@ -46,7 +79,7 @@
 	  	<c:if test="${btnMaker.prev }">
 		    <li class="page-item">
 		    <!-- 이전 페이지 버튼을 누르면 현재 보고있는 페이지의 시작페이지보다 하나더 작게 -->
-		      <a class="page-link" href="/board/list?pageNum=${btnMaker.startPage - 1 }">Previous</a>
+		      <a class="page-link" href="/board/list?pageNum=${btnMaker.startPage - 1 }&searchType=${btnMaker.cri.searchType}&keyword=${btnMaker.cri.keyword}">Previous</a>
 		    </li>
 	    </c:if>
 	    <!-- 번호 버튼 -->
@@ -64,14 +97,14 @@
 		    </li>-->
 		    <!-- c:if 사용하지 않고 class 속성 내부에 삼항연산자를 사용해 작성 -->
 		    <li class="page-item ${btnMaker.cri.pageNum == pageNum ? 'active' : '' }">
-		      <a class="page-link" href="/board/list?pageNum=${pageNum }">${pageNum }</a>
+		      <a class="page-link" href="/board/list?pageNum=${pageNum }&searchType=${btnMaker.cri.searchType}&keyword=${btnMaker.cri.keyword}">${pageNum }</a>
 		    </li>
 		    
 	   </c:forEach>
 	    <!-- 다음 페이지 버튼 -->
 	    <c:if test="${btnMaker.next }">
 		    <li class="page-item">
-		      <a class="page-link" href="/board/list?pageNum=${btnMaker.endPage + 1 }">Next</a>
+		      <a class="page-link" href="/board/list?pageNum=${btnMaker.endPage + 1 }&searchType=${btnMaker.cri.searchType}&keyword=${btnMaker.cri.keyword}">Next</a>
 		    </li>
 	    </c:if>
 	  </ul>

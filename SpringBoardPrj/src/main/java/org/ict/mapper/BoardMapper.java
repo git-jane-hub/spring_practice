@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Select;
 import org.ict.domain.BoardVO;
 import org.ict.domain.Criteria;
+import org.ict.domain.SearchCriteria;
 // 메서드 이름과 용도에 따른 리턴자료형만 작성
 public interface BoardMapper {
 	// BoardVO를 매개로 insert 정보를 전달받음
@@ -28,7 +29,8 @@ public interface BoardMapper {
 	
 	// 페이징 처리가 된 글목록을 조회해야하기 때문에 Criteria 정보를 파라미터로 제공해야함
 	// - 몇 페이지의 글을 조회할 지 정보를 같이 쿼리문에 전송 가능
-	public List<BoardVO> getListPaging(Criteria cri);
+	public List<BoardVO> getListPaging(SearchCriteria cri);
 	
-	public int getCountList();
+	// 전체 글 개수를 가져오는 로직 - SearchCriteria 추가
+	public int getCountList(SearchCriteria cri);
 }
