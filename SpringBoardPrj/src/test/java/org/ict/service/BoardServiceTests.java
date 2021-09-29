@@ -55,10 +55,10 @@ public class BoardServiceTests {
 		service.getList("qwe");
 	}
 	
-	@Test
+	//@Test
 	public void testGetListPaging() {
 		Criteria cri = new Criteria(15, 10);
-		service.getPagingList(cri);
+		//service.getPagingList(cri);
 	}
 	
 	//@Test

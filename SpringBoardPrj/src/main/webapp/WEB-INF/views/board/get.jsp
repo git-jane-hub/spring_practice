@@ -43,9 +43,19 @@
 				<td>${boardvo.updatedate }</td>
 			</tr>
 	</table>
-	<a href="/board/list"><button>글목록</button></a>
+	<%-- pageNum, searchType, keyword 를 파라미터로 전달받기 위한 디버깅 
+	 EL의 ${param.파라미터명}을 이용하면 확인 가능
+	 controller내부에서 get 파라미터에 SearchType을 선언해서 선언해도 되지만
+	 파라미터에서만 사용할 데이터이기 때문에 get.jsp에서만 사용할 수 있도록 EL을 사용 --%>
+	글번호: ${param.pageNum }
+	검색조건: ${param.searchType }
+	키워드: ${param.keyword }
+	<a href="/board/list?pageNum=${param.pageNum }&searchType=${param.searchType}&keyword=${param.keyword}"><button>글목록</button></a>
 	<form action="/board/boardmodify" method="post">
 		<input type="hidden" name="bno" value="${boardvo.bno }"/>
+		<input type="hidden" name="pageNum" value="${param.pageNum }"/>
+		<input type="hidden" name="searchType" value="${param.searchType }"/>
+		<input type="hidden" name="keyword" value="${param.keyword }"/>
 		<input type="submit" value="글수정"/>
 	</form>
 	<form action="/board/remove" method="post">

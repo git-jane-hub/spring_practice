@@ -27,10 +27,10 @@ public class BoardMapperTests {
 		log.info(mapper.getList("test"));
 	}
 	
-	@Test
+	//@Test
 	public void testGetPagingList() {
 		Criteria cri = new Criteria(15, 10);
-		mapper.getListPaging(cri);
+		//mapper.getListPaging(cri);
 	}
 	
 	//@Test

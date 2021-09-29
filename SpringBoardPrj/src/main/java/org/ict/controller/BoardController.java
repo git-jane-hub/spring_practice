@@ -98,6 +98,7 @@ public class BoardController {
 	// 상세 페이지 조회는 Long bno에 적힌 글번호를 이용
 	@GetMapping("/get")
 	public String get(Long bno, Model model) {
+		
 		// 로직이 실행되기 전에 bno가 null로 들어오는 경우(bno값이 없는 경우),
 		// DB에 없는 데이터 bno가 파라미터 값으로 들어올 경우도 추가
 		if(bno == null) {
@@ -140,12 +141,29 @@ public class BoardController {
 	// 수정 폼에서 변경을 완료하면 반영하는 로직 - modify.jsp에서 넘겨받은 정보를 사용해 파라미터에 작성
 	// 변경내역을 확인할 수 있도록 상세페이지로 이동
 	@PostMapping("/modify")
-	public String modify(BoardVO vo, RedirectAttributes rttr) {
+	/* pageNum, searchType, keyword를 controller가 받아올 수 있도록 
+	 * 해당 이름의 멤버변수를 가진 SeachCriteria 를 파라미터로 선언 
+	 */
+	public String modify(BoardVO vo, SearchCriteria cri, RedirectAttributes rttr) {
 		log.info("modify.jsp 에서 넘겨받은 정보: " + vo);
+		log.info("페이지번호: " + cri.getPageNum());
+		log.info("검색조건: " + cri.getSearchType());
+		log.info("키워드: " +cri.getKeyword());
 		service.modify(vo);
+		/* rttr.addFlashAttribute()는 이동한 페이지에서 파라미터값을 사용할 수 있도록 
+		 * 전달하는 것으로 addAttribute()와 다름
+		 */
 		rttr.addFlashAttribute("modi", "modi");
 		rttr.addFlashAttribute("bno", vo.getBno());
+		/* rttr.addAttribute("파라미터명", "전달자료"); 는 호출되면
+		 * redirect 주소 뒤로 파라미터를 붙여줌
+		 */
+		rttr.addAttribute("bno", vo.getBno());
+		rttr.addAttribute("pageNum", cri.getPageNum());
+		rttr.addAttribute("searchType", cri.getSearchType());
+		rttr.addAttribute("keyword", cri.getKeyword());
 		// 상세페이지는 bno가 파라미터로 주어져야함
-		return "redirect:/board/get?bno=" + vo.getBno();
+		// rttr.addAttribute()를 사용하면서 get뒤 '?' 없앰
+		return "redirect:/board/get";
 	}
 }
