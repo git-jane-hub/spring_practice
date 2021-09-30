@@ -66,9 +66,23 @@ public class RestTestController {
 		return map;
 	}
 	
+	// <Void>: 접속하면 에러코드만 전달
 	@RequestMapping("/sendErrorAuth")
 	public ResponseEntity<Void> sendErrorAuth(){
 		return new ResponseEntity<Void>(HttpStatus.BAD_GATEWAY);
+	}
+	
+	// <List<TestVO>: 접속하면 리스트와 에러코드 함께 전달
+	@RequestMapping("/sendErrorNot")
+	public ResponseEntity<List<TestVO>> sendErrorNot(){
+		List<TestVO> list = new ArrayList<>();
+		for(int a = 0; a < 10; a++) {
+			TestVO vo = new TestVO();
+			vo.setName(a + ": 무슨무슨 이유로 다음과 같은 에러가 발생했으니 수정해서 다시 접속하세요.");
+			list.add(vo);
+		}
+		// 파라미터 내부에는 (전달할 데이터, 발생시킨 에러코드)
+		return new ResponseEntity<List<TestVO>>(list, HttpStatus.NOT_FOUND);
 	}
 	
 }
