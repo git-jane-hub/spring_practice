@@ -1,7 +1,7 @@
 /*
-oracleÀº auto_increment°¡ ¾øÀ¸¹Ç·Î board_numÀÌ¶ó´Â ½ÃÄö½º¸¦ ¸¸µé¸é Ã³À½¿¡ 0ÀÌ ÀúÀåµÊ
-ÀÌÈÄ primary key °¡ µé¾î°¥ ÀÚ¸®¿¡ board_num(½ÃÄö½º¸í).nextvalÀÌ¶ó°í ±âÀÔÇÏ¸é
-½ÇÇàÇÒ ¶§¸¶´Ù 1¾¿ Áõ°¡µÈ »õ·Î¿î °ªÀ» ±× À§Ä¡¿¡ ³Ö¾îÁÜ 
+oracleì€ auto_incrementê°€ ì—†ìœ¼ë¯€ë¡œ board_numì´ë¼ëŠ” ì‹œí€€ìŠ¤ë¥¼ ë§Œë“¤ë©´ ì²˜ìŒì— 0ì´ ì €ì¥ë¨
+ì´í›„ primary key ê°€ ë“¤ì–´ê°ˆ ìë¦¬ì— board_num(ì‹œí€€ìŠ¤ëª…).nextvalì´ë¼ê³  ê¸°ì…í•˜ë©´
+ì‹¤í–‰í•  ë•Œë§ˆë‹¤ 1ì”© ì¦ê°€ëœ ìƒˆë¡œìš´ ê°’ì„ ê·¸ ìœ„ì¹˜ì— ë„£ì–´ì¤Œ 
 */
 CREATE SEQUENCE board_num;
 
@@ -20,8 +20,30 @@ INSERT INTO board_tbl (bno, title, content, writer) VALUES (board_num.nextval, '
 
 SELECT * FROM board_tbl ORDER BY bno DESC;
 SELECT ROWNUM, bno, title FROM board_tbl;
-commit; /* ½ÇÇà¹® ½ÇÇàÇÏ°í Ä¿¹ÔÇØ¾ß ¹İ¿µµÊ */
+commit; /* ï¿½ï¿½ï¿½à¹® ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ Ä¿ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½İ¿ï¿½ï¿½ï¿½ */
 
 SELECT * FROM board_tbl where ROWNUM <= 3 ORDER BY bno;
 SELECT content FROM board_tbl WHERE bno = 1;
 UPDATE board_tbl SET title='UPDATE', content='UPDATE', writer='UPDATE', updatedate=SYSDATE WHERE bno=2;
+
+CREATE TABLE reply_tbl(
+    rno NUMBER(10, 0),
+    bno NUMBER(10, 0) NOT NULL,
+    reply VARCHAR2(1000) NOT NULL,
+    replyer VARCHAR2(50) NOT NULL,
+    replyDate DATE DEFAULT SYSDATE,
+    updatedate DATE DEFAULT SYSDATE
+);
+
+SELECT * FROM board_tbl;
+SELECT * FROM reply_tbl;
+SELECT b.bno, b.title, b.content, b.writer, b.regdate, b.updatedate, r.rno, r.reply, r.replyer, r.replydate, r.updatedate 
+FROM reply_tbl r FULL OUTER JOIN board_tbl b 
+ON b.bno = r.bno ORDER BY b.bno DESC;
+
+CREATE SEQUENCE reply_num;
+
+ALTER TABLE reply_tbl ADD CONSTRAINT pk_reply PRIMARY KEY(rno);
+
+ALTER TABLE reply_tbl ADD CONSTRAINT fk_reply 
+FOREIGN KEY (bno) REFERENCES board_tbl(bno);
