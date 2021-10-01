@@ -7,6 +7,12 @@ CREATE TABLE reply_tbl(
     updatedate DATE DEFAULT SYSDATE
 );
 
+SELECT * FROM board_tbl;
+SELECT * FROM reply_tbl;
+SELECT b.bno, b.title, b.content, b.writer, b.regdate, b.updatedate, r.rno, r.reply, r.replyer, r.replydate, r.updatedate 
+FROM reply_tbl r FULL OUTER JOIN board_tbl b 
+ON b.bno = r.bno ORDER BY b.bno DESC;
+
 CREATE SEQUENCE reply_num;
 
 ALTER TABLE reply_tbl ADD CONSTRAINT pk_reply PRIMARY KEY(rno);
