@@ -63,11 +63,21 @@ public class ReplyController {
 		return entity;
 	}
 	
+	// @PutMapping / @PathMapping을 작성하지 않고 RequestMethod에 두가지를 같이 작성해 두가지를 함께 처리하도록 함
 	@RequestMapping(value="/{rno}", method= {RequestMethod.PATCH, RequestMethod.PUT},
 			consumes = "application/json", produces = MediaType.TEXT_PLAIN_VALUE)
-	public ResponseEntity<String> modify(@RequestBody ReplyVO vo, @PathVariable("rno")Long rno){
+	public ResponseEntity<String> modify(
+			/* vo는 payload에 작성된 데이터로 받아옴
+			 * (@RequestBody에 작성된 vo는 payload에 적힌 데이터를 vo로 환산한 데이터로 가져옴)
+			 */
+			@RequestBody ReplyVO vo, 
+			// vo중 댓글 번호는 주소에 기입된 데이터를 통해 받아옴
+			@PathVariable("rno")Long rno){
 		ResponseEntity<String> entity = null;
 		try {
+			/* Yarc -payload에는 reply에 대한 정보만 작성, rno는 요청주소를 통해 전달받음
+			 * 하지만 rno를 파라미터로 받아오는 값은 컨트롤러 메서드 내부에서 setter를 통해 지정해줘야 함
+			 */
 			vo.setRno(rno);
 			service.modifyReply(vo);
 			entity = new ResponseEntity<String>("SUCCESS",HttpStatus.OK);
