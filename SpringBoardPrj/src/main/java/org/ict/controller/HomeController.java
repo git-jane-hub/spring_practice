@@ -66,4 +66,12 @@ public class HomeController {
 		return "session2";
 	}
 	
+	// Contoller에서는 주소지정만 함
+	@GetMapping("/test")
+	public void ajaxTest() {
+		
+	}
+	
+	
+	
 }
