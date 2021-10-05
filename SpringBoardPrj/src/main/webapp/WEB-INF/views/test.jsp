@@ -84,6 +84,8 @@
 			});
 		}
 		getAllList();
+		
+		// 댓글 작성
 		$("#replyAddBtn").on("click", function(){
 			// 각 input 태그에 있던 글쓴이, 본문의 value값을 변수에 저장
 			var replyer = $("#newReplyWriter").val();
@@ -122,8 +124,9 @@
 		 * body 태그도 버튼의 전체를 포함하지만 ul 태그(#replies)가 범위가 더 적음
 		 * 위임을 할 때는 파라미터 3개: .on("click", "목적지 태그까지 요소들", function(){실행문})
 		 */
+		 
+		// 댓글 수정/삭제를 위한 버튼 생성
 		// 이벤트 위임
-		
 		$("#replies").on("click", ".replyLi button", function(){
 			var replyLi = $(this).parent();
 			// .attr("속성명"): 해당 속성의 값
@@ -137,7 +140,54 @@
 			$(".modal-title").html(rno);	// modal 상단 댓글 번호
 			$("#replytext").val(reply);	// modal 수정창 댓글 본문
 			$("#modDiv").show("slow");		// 창에 애니메이션 효과
-		}); 
+		});
+		
+		// 댓글 수정(rno, reply 필요)
+		$("#replyModBtn").on("click", function(){
+			var rno = $(".modal-title").html();
+			// 수정에 필요한 본문 내용은 #replytext의 value 값으로 가져오기
+			var reply = $("#replytext").val();
+			$.ajax({
+				type : 'put',
+				url : '/replies/' + rno,
+				headers : {
+					"Content-Type" : "application/json",
+					"X-HTTP-Method-Override" : "PUT"
+				},
+				// 쿼리문에서 reply를 필요로하기 때문에 작성
+				dataType : 'text',
+				data : JSON.stringify({reply:reply}),
+				success : function(result){
+					if(result === "SUCCESS"){
+						alert(rno + "번 댓글이 수정되었습니다.");
+						$("#modDiv").hide("slow");
+						getAllList();
+					}
+				}
+			});
+		});
+		
+		// 댓글 삭제(rno 필요)
+		$("#replyDelBtn").on("click", function(){
+			// 삭제에 필요한 댓글번호는 modal-title의 내용에서 가져옴
+			var rno = $(".modal-title").html();
+			console.log(rno);
+			$.ajax({
+				// 필요한 정보- rno, url, 호출타입, 전달 데이터- 없음
+				type : 'delete',
+				url : '/replies/' + rno,
+				// 데이터 전달에 성공하면, 아래 함수를 실행
+				success : function(result){
+					if(result === 'SUCCESS'){
+						alert(rno + "번 글이 삭제되었습니다.");
+						// 모달창 hide()로 닫기
+						$("#modDiv").hide("slow");
+						// 댓글 목록 갱신
+						getAllList();
+					}
+				}
+			});
+		});
 	</script>
 </body>
 </html>
