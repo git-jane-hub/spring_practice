@@ -196,6 +196,7 @@
 		// button의 형제 중 .reply의 내부텍스트
 		var reply = $(this).siblings(".reply").text();
 		// 클릭 버튼에 해당하는 댓글번호+본문이 가져와지는지 디버깅
+		console.log($(this).siblings(".reply"));
 		console.log(rno + ":" + reply);
 		
 		// modal 창을 띄울수 있도록 수정
