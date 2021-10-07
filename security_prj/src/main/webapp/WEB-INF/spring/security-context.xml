@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 수정함: xsi:~에주소 하나씩 나타나게하고, 5.0 삭제 -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security 
+		http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- http 영역 -->
+	<security:http>
+		<security:form-login/>
+	</security:http>
+	
+	<!-- 인증 영역 -->
+	<security:authentication-manager></security:authentication-manager>
+
+</beans>

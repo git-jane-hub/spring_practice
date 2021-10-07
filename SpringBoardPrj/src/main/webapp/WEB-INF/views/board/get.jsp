@@ -169,7 +169,7 @@
 			}),
 			// Controller에 작성된 'SUCCESS' 문자열이 반환될 경우 발생하는 함수
 			success : function(result){
-				if(result == 'SUCCESS'){
+				if(result === 'SUCCESS'){
 					alert("등록 완료");
 					// 댓글을 작성한는 버튼을 누르면 갱신이 되어야하기 때문에 'SUCCESS'가 반환될 때 댓글 목록을 조회
 					getAllList();
@@ -234,7 +234,7 @@
 	$("#replyDelBtn").on("click", function(){
 		// 삭제에 필요한 댓글번호는 modal-title의 내용에서 가져옴
 		var rno = $(".modal-title").html();
-		console.log(rno);
+		console.log("삭제시 rno값 확인 : " + rno);
 		$.ajax({
 			// 필요한 정보- rno, url, 호출타입, 전달 데이터- 없음
 			type : 'delete',

@@ -2,6 +2,7 @@ package org.ict.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.ict.domain.BoardVO;
 import org.ict.domain.Criteria;
@@ -33,4 +34,7 @@ public interface BoardMapper {
 	
 	// 전체 글 개수를 가져오는 로직 - SearchCriteria 추가
 	public int getCountList(SearchCriteria cri);
+	
+	// 댓글이 작성되면 replycount를 증가 - amount는 컬럼값이 아님
+	public void updateReplyCount(@Param("bno")Long bno, @Param("amount")Long amount);
 }

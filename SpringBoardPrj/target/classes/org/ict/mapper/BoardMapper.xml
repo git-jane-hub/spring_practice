@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.rg/dtd/mybatis-3-mapper.dtd">
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 위 스키마 작성 후, 어떤 인터페이스의 메서드를 쿼리문과 연결해줄지 아래와 같이 인터페이스 파일부터 mapper태그로 연결 -->
 <mapper namespace="org.ict.mapper.BoardMapper">
 <sql id="search">
@@ -53,7 +53,7 @@
 	<select id="getListPaging" resultType="org.ict.domain.BoardVO">
 		<!-- 수정을 위해 조건에 구애받지 않는 공통쿼리와 조건별로 추가해야하는 조건별 쿼리를 따로 지정 -->
 		<![CDATA[
-			SELECT bno, title, content, writer, regdate, updatedate FROM
+			SELECT bno, title, content, writer, regdate, updatedate, replycount FROM
 			(SELECT 
 			/*+ INDEX_DESC(board_tbl pk_board) */
 			rownum rn, board_tbl.* FROM board_tbl 
@@ -108,4 +108,9 @@
 	<update id="update">
 		UPDATE board_tbl SET title=#{title}, content=#{content}, writer=#{writer}, updatedate=SYSDATE WHERE bno=#{bno}
 	</update>
+	
+	<update id="updateReplyCount">
+		UPDATE board_tbl SET replycount = replycount + #{amount} WHERE bno = #{bno}
+	</update>
+
 </mapper>

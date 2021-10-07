@@ -44,6 +44,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
+	// 글이 삭제되면 댓글이 함께 삭제되는 로직 추가하기 + @Transactional
 	public void remove(Long bno) {
 		log.info("삭제 작업 실행");
 		mapper.delete(bno);
