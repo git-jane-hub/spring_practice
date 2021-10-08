@@ -14,7 +14,7 @@
 	<bean id="customLoginSuccess" class="org.ict.security.CustomLoginSuccessHandler" />
 	
 	<!-- http 영역 -->
-	<security:http>
+	<security:http auto-config="true" use-expressions="true">
 	
 		<!-- pattern에 해당하는 url에 접근하면 접속요청을 스프링 시큐리티가 가로챔 -> 접근을 시킬지 말지 결정
 			pattern: 어떤 url을 가로챌 것인지, access: 접근에 대한 처리를 어떻게 할지 -->

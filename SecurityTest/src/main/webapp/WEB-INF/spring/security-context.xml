@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security 
+		http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- 기존의 접근제한 페이지 대신 커스텀된 핸들러 사용 -->
+	<bean id="customAccessDenied" class="org.ict.security.CustomAccessDeniedHandler"/>
+	<!-- 기존의 로그인 처리로직 대신 커스텀된 핸들러 사용 -->
+	<bean id="customLoginSuccess" class="org.ict.security.CustomLoginSuccessHandler"/>
+	<security:http>
+		<!-- 각 url마다 어떤 접근처리를할지 지정 -->
+		<security:intercept-url pattern="/secu/all" access="permitAll"/>
+		<security:intercept-url pattern="/secu/member" access="hasRole('ROLE_MEMBER')"/>
+		<security:intercept-url pattern="/secu/admin" access="hasRole('ROLE_ADMIN')"/>
+
+		<!-- 스프링 시큐리티가 임시로 생성하는 로그인폼 -> 커스텀
+		<security:form-login/> 
+		<security:form-login login-page="/customLogin"/>	-->	
+		<security:form-login login-page="/customLogin" authentication-success-handler-ref="customLoginSuccess"/>		
+		
+		<!-- 접근 제한된 유저가 접근하면 제한을 나타내는 페이지 -> 커스텀
+		<security:access-denied-handler error-page="/accessError"/> -->
+		<security:access-denied-handler ref="customAccessDenied"/>
+		
+		<!-- 로그아웃과 세션 파기 -->
+		<security:logout logout-url="/customLogout" invalidate-session="true"/>
+	</security:http>
+	<!-- 인증 매니저 추가 -->
+	<security:authentication-manager>
+		<security:authentication-provider>
+			<security:user-service>
+				<!-- 로그인 가능한 아이디와 비밀번호 테스트를 위한 생성 -->
+				<security:user name="member" password="{noop}member" authorities="ROLE_MEMBER"/>
+				<security:user name="admin" password="{noop}admin" authorities="ROLE_MEMBER, ROLE_ADMIN"/>
+			</security:user-service>
+		</security:authentication-provider>
+	</security:authentication-manager>
+</beans>
