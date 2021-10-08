@@ -8,5 +8,7 @@
 </head>
 <body>
 	<h1>admin</h1>
+	<!-- csrf token을 사용하기 위해 form이 작성된 logout 페이지로 이동 -->
+	<a href="/customLogout">로그아웃 페이지로 이동</a>
 </body>
 </html>
