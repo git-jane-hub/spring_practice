@@ -13,6 +13,11 @@
 	<!-- 기존 로그인 로직을 커스텀된 로그인 로직으로 바꿔서 적용 -->
 	<bean id="customLoginSuccess" class="org.ict.security.CustomLoginSuccessHandler" />
 	
+	<!-- 비밀번호 암호화 -->
+	<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+	
+	<!-- MemberMapper의 데이터를 스프링 시큐리티에서 처리할 수 있도록 커스터마이징 -->
+	<bean id="customUserDetailsService" class="org.ict.security.CustomUserDetailsService"/>
 	<!-- http 영역 -->
 	<security:http auto-config="true" use-expressions="true">
 	
@@ -40,13 +45,18 @@
 	
 	<!-- 인증 영역(인증 매니저 추가) -->
 	<security:authentication-manager>
-		<security:authentication-provider>
-			<security:user-service>
-				<!-- id와 password를 임시로 만들어 테스트 {no option}을 작성해 비밀번호 복호화 강제처리를 off -->
-				<security:user name="member" password="{noop}member" authorities="ROLE_MEMBER"/>
-				<!-- authorities에 member에 대한 권한을 추가해주면 admin 계정으로도 member 페이지에 로그인이 가능 -->
-				<security:user name="admin" password="{noop}admin" authorities="ROLE_MEMBER, ROLE_ADMIN"/>
-			</security:user-service>
+		<security:authentication-provider user-service-ref="customUserDetailsService">
+		<!-- DB에 데이터를 생성했기 때문에 임시로 만든 id, pw를 주석처리 -->
+	<!-- 	<security:user-service>  -->
+				<!-- id와 password를 임시로 만들어 테스트 {no option}을 작성해 비밀번호 복호화 강제처리를 off 
+				<security:user name="member" password="{noop}member" authorities="ROLE_MEMBER"/> -->
+				<!-- authorities에 member에 대한 권한을 추가해주면 admin 계정으로도 member 페이지에 로그인이 가능 
+				<security:user name="admin" password="{noop}admin" authorities="ROLE_MEMBER, ROLE_ADMIN"/> -->
+	<!--	</security:user-service> -->
+			<!-- DB를 근거로 로그인 서비스를 진행하겠다는 의미 -->
+	<!--	<security:jdbc-user-service data-source-ref="dataSource"/>	-->
+			<!-- pw 암호화를 위해 스프링 시큐리티에서 제공 -->
+			<security:password-encoder ref="bcryptPasswordEncoder"/> 
 		</security:authentication-provider>
 	</security:authentication-manager>
 
