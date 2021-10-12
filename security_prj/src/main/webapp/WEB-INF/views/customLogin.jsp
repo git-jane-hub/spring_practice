@@ -13,8 +13,9 @@
 	<h2><c:out value="${logout }"/></h2>
 	
 	<form action="/login" method="post">
-		id: <input type="text" name="username" value="admin"/><br>
-		pw: <input type="text" name="password" value="admin"/><br>
+		id: <input type="text" name="username" value="admin" /><br>
+		pw: <input type="text" name="password" value="admin" /><br>
+		자동로그인: <input type="checkbox" name="remember-me" /><br>
 		<input type="submit" value="LOGIN"/>
 		<!-- 로그인 이후 로직을 실행할 때, 해당 csrf값도 동일한지 여부를 확인(csrf 공격 방지) -->
 		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>

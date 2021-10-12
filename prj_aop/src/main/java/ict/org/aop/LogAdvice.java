@@ -43,7 +43,7 @@ public class LogAdvice {
 	
 	// 4번 advice - 메서드 성능측정
 	// execution 내부 오타나면 화살표가 나타나지 않음
-	@Around("execution(* ict.org.service.SampleService*.*(..))")
+	//@Around("execution(* ict.org.service.SampleService*.*(..))")
 	public Object logTime(ProceedingJoinPoint pjp) {
 		// 시작시간
 		long start = System.currentTimeMillis();
@@ -69,7 +69,7 @@ public class LogAdvice {
 		return result;
 	}
 	
-	@After("execution(* ict.org.service.SampleService*.*(..))")
+	//@After("execution(* ict.org.service.SampleService*.*(..))")
 	public void logAfter() {
 		log.info("==============");
 		log.info("메서드 종료");

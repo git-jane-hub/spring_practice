@@ -24,10 +24,10 @@ public class SampleServiceTests {
 	
 	@Test
 	public void testAdd() throws Exception{
-		log.info(service.doAdd("123", "456"));
-		service.introduce();
+		//log.info(service.doAdd("123", "456"));
+		//service.introduce();
 		// 에러가 발생하는 상황 test
-		// log.info(service.doAdd("123", "ABC"));
+		 log.info(service.doAdd("123", "ABC"));
 	}
 	
 }

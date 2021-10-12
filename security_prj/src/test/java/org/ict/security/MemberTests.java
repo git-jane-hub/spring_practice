@@ -82,7 +82,7 @@ public class MemberTests {
 		}
 	}
 	
-	@Test
+	//@Test
 	public void testInsertAuth() {
 		try {
 			Connection con = ds.getConnection();
@@ -107,5 +107,5 @@ public class MemberTests {
 			e.printStackTrace();
 		}
 	}
-	
+
 }

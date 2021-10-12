@@ -18,6 +18,10 @@
 	
 	<!-- MemberMapper의 데이터를 스프링 시큐리티에서 처리할 수 있도록 커스터마이징 -->
 	<bean id="customUserDetailsService" class="org.ict.security.CustomUserDetailsService"/>
+	
+	<!-- 회원가입 -->
+	<bean id="userJoin" class="org.ict.security.JoinService"/>
+	
 	<!-- http 영역 -->
 	<security:http auto-config="true" use-expressions="true">
 	
@@ -26,21 +30,28 @@
 		<!-- /secu/all: 모든 유저에게 접근 허용 -->
 		<security:intercept-url pattern="/secu/all" access="permitAll"/>
 		
-		<!-- /secu/member: 멤버에게만 접근 허용 -->
-		<security:intercept-url pattern="/secu/member" access="hasRole('ROLE_MEMBER')"/>
+		<!-- 작성했던 권한 부여를 주석처리하고 Controller에서 어노테이션을 사용해 로그인을 통한 권한 검증 -->
+		<!-- /secu/member: 멤버에게만 접근 허용
+		<security:intercept-url pattern="/secu/member" access="hasRole('ROLE_MEMBER')"/> 
 		
-		<!-- /secu/member: admin에게만 접근 허용 -->
-		<security:intercept-url pattern="/secu/admin" access="hasRole('ROLE_ADMIN')"/>
-	
+		 /secu/member: admin에게만 접근 허용 
+		<security:intercept-url pattern="/secu/admin" access="hasRole('ROLE_ADMIN')"/> -->
+		
 		<security:form-login login-page="/customLogin"
 			authentication-success-handler-ref="customLoginSuccess"/>
 		
-		<!-- 접근 거부가 발생한 경우, 접근 제한 페이지 변경(톰캣 기본페이지에서 커스텀된 템플릿으로) -->
-		<!-- <security:access-denied-handler error-page="/accessError"/>  -->
+		<!-- 접근 거부가 발생한 경우, 접근 제한 페이지 변경(톰캣 기본페이지에서 커스텀된 템플릿으로) 
+		 <security:access-denied-handler error-page="/accessError"/>  -->
 		<security:access-denied-handler ref="customAccessDenied"/>
 		
 		<!-- 로그아웃에서 사용할 url을 저장하고, 로그아웃이 되면 세션을 파기할 수 있도록 작성 -->
-		<security:logout logout-url="/customLogout" invalidate-session="true"/>
+		<security:logout logout-url="/customLogout" invalidate-session="true"
+		delete-cookies="remember-me, JSESSIONID" /><!-- 로그아웃을 진행하면 자동 로그인의 쿠키를 파기 -->
+		
+		<!-- 자동 로그인 구현에서 한번 로그인을 진행하면 7일동안 로그인을 유지시켜주도록 작성 -->
+		<security:remember-me data-source-ref="dataSource" token-validity-seconds="604800" />
+		
+		
 	</security:http>
 	
 	<!-- 인증 영역(인증 매니저 추가) -->

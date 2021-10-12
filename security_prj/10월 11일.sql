@@ -43,4 +43,11 @@ CREATE TABLE member_auth(
     CONSTRAINT fk_member_auth FOREIGN KEY(userid) REFERENCES member_tbl(userid)
 );
 
+SELECT * FROM member_auth;
+
 COMMIT;
+
+/*transaction posting*/
+select * from tbl_test1;
+select * from tbl_test2;
+DELETE FROM tbl_test1 where col1 = 'abcdefghijklmnopqrstuvwxyz';

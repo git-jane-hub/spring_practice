@@ -31,6 +31,15 @@
 		WHERE
 			m.userid = #{userid}
 	</select>
+	
+	<insert id="addMember">
+		INSERT INTO member_tbl (userid, userpw, username) VALUES (#{userid}, #{userpw}, #{username})
+	</insert>
+	
+	<insert id="addAuth">
+		INSERT INTO member_tbl (userid, auth) VALUES (#{userid}, #{auth})
+	</insert>
+	
 </mapper>
 
 

@@ -1,5 +1,6 @@
 package org.ict.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,7 +37,7 @@ public class CommonController {
 		if(logout != null) {
 			model.addAttribute("logout", "로그아웃 되었습니다.");
 		}
-	}
+	}	
 	
 	// 로그아웃 폼으로 이동
 	@GetMapping("/customLogout")
@@ -48,4 +49,5 @@ public class CommonController {
 	public void logoutPost() {
 		log.info("post 방식으로 로그아웃 요청 처리");
 	}
+
 }
