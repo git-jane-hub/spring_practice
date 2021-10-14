@@ -166,4 +166,5 @@ public class BoardController {
 		// rttr.addAttribute()를 사용하면서 get뒤 '?' 없앰
 		return "redirect:/board/get";
 	}
+	
 }
