@@ -1,6 +1,5 @@
 package org.ict.controller;
-
-
+// Board
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import org.ict.domain.AttachFileDTO;
+import org.ict.domain.BoardAttachVO;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -34,8 +33,7 @@ import net.coobird.thumbnailator.Thumbnailator;
 @Controller
 @Log4j
 public class UploadController {
-	
-	// 이미지 파일 여부를 체크
+	// 이미지 파일 여부 체크
 	private boolean checkImageType(File file) {
 		try {
 			String contentType = Files.probeContentType(file.toPath());
@@ -46,6 +44,7 @@ public class UploadController {
 		return false;
 	}
 	
+	// 폴더 형식 지정
 	private String getFolder() {
 		// 날짜에 맞춰서 폴더형식을 만들어주는 함수로 파일 업로드 시 업로드 날짜별로 폴더를 만들어 관리
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -55,12 +54,7 @@ public class UploadController {
 		// File.separator로 2021폴더 아래 10폴더 아래 13폴더 아래 파일 업로드
 		return str.replace("-", File.separator);
 	}
-	
-	@GetMapping("/uploadForm")
-	public void uploadForm() {
-		log.info("upload form");
-	}
-	
+
 	@PostMapping("/uploadFormAction")
 	public void uploadFormPost(MultipartFile[] uploadFile, Model model) {
 		// web.xml에서 지정한 경로와 같은 경로를 작성해 파일이 업로드되면 해당 폴더에 저장될 수 있게함
@@ -83,22 +77,16 @@ public class UploadController {
 				log.error(e.getMessage());
 			}
 		}
-	}
-	
-	// ajax로 파일 업로드
-	@GetMapping("/uploadAjax")
-	public void uploadAjax() {
-		log.info("upload ajax");
-	}
+	}	
 	
 	// 일반 컨트롤러에서 rest요청을 처리하는 경우에 작성
 	@PostMapping(value="/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public ResponseEntity<List<AttachFileDTO>> uploadAjaxPost(MultipartFile[] uploadFile){
+	public ResponseEntity<List<BoardAttachVO>> uploadAjaxPost(MultipartFile[] uploadFile){
 		log.info("ajax post update!");
 		
 		// 이미지 여러개를 받아야하기 때문에 먼저 ArrayList를 생성
-		List<AttachFileDTO> list = new ArrayList();
+		List<BoardAttachVO> list = new ArrayList();
 		
 		String uploadFolder = "C:\\upload_data\\temp";
 		
@@ -120,7 +108,7 @@ public class UploadController {
 			/* 파일명, 폴더경로(날짜 정보를 포함), UUID, 그림파일 여부를 모두 해당 반복문에서 처리하므로
 			 * 썸네일을 만들기 전에 상단에 AttachFileDTO 생성
 			 */
-			AttachFileDTO attachDTO = new AttachFileDTO();
+			BoardAttachVO attachDTO = new BoardAttachVO();
 			
 			String uploadFileName = multipartFile.getOriginalFilename();
 			
@@ -171,9 +159,9 @@ public class UploadController {
 				log.error(e.getMessage());
 			}
 		}// end for
-		return new ResponseEntity<List<AttachFileDTO>>(list, HttpStatus.OK);
+		return new ResponseEntity<List<BoardAttachVO>>(list, HttpStatus.OK);
 	}
-	
+
 	// 파일이름을 파라미터에 넣으면 웹에서 사용할 수 있는 경로로 바꿔줌
 	@GetMapping("/display")
 	@ResponseBody
@@ -240,23 +228,3 @@ public class UploadController {
 		return new ResponseEntity<String>("deleted", HttpStatus.OK);
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

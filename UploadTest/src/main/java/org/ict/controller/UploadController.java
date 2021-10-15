@@ -87,7 +87,6 @@ public class UploadController {
 			UUID uuid = UUID.randomUUID();
 			
 			try {
-				
 				// File 객체를 생성해 저장될 경로와 파일이름을 넣어줌
 				//File saveFile = new File(uploadFolder, uploadFileName);
 				// uploadFolder에서 'C:\\upload_data\\test' 경로만 지정했는데 날짜 정보를 포함한 폴더로 변경

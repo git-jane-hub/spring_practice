@@ -2,17 +2,22 @@ package org.ict.controller;
 // test순서: 먼저 controller에 작성 - 해당 주소로 진입하면 로직 실행되는지 테스트 - jsp 파일 작성
 import java.util.List;
 
+import org.ict.domain.BoardAttachVO;
 import org.ict.domain.BoardVO;
 import org.ict.domain.Criteria;
 import org.ict.domain.PageDTO;
 import org.ict.domain.SearchCriteria;
 import org.ict.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.AllArgsConstructor;
@@ -84,6 +89,13 @@ public class BoardController {
 		rttr.addFlashAttribute("bno", vo.getBno());
 		rttr.addFlashAttribute("success", "register");
 		log.info("받아온 bno값: " + vo.getBno());
+		
+		// vo와 함께 첨부된 파일정보가 들어오는지 확인
+		log.info("============");
+		log.info("register: " + vo);
+		if(vo.getAttachList() != null) {
+			vo.getAttachList().forEach(attach -> log.info(attach));
+		}
 		// views 폴더 하위 board 폴더의 list.jsp 출력
 		// redirect로 이동시에는 "redirect:파일명"
 		return "redirect:/board/list";
@@ -166,5 +178,13 @@ public class BoardController {
 		// rttr.addAttribute()를 사용하면서 get뒤 '?' 없앰
 		return "redirect:/board/get";
 	}
-	
+
+	/* 업로드하는 파일정보를 REST통신으로 출력할 수 있도록 작성
+	 * 'http://localhost:8181/board/getAttachList?bno=값'으로 접속하면 해당 업로드파일의 정보를 알 수 있음 
+	 */
+	@GetMapping(value="/getAttachList", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public ResponseEntity<List<BoardAttachVO>> getAttachList(Long bno){
+		return new ResponseEntity<>(service.getAttachList(bno), HttpStatus.OK);
+	}
 }

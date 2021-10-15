@@ -19,6 +19,25 @@
 		padding: 10px;
 		z-index: 1000;
 	}
+	.uploadResult{
+		width: 100%;
+		background-color: gray;
+	}
+	.uploadResult ul{
+		display: flex;
+		flex-flow: row;
+		justify-content:center;
+		align-items: center;
+	}
+	.uploadResult ul li{
+		list-style: none;
+		padding: 10px;
+		align-items: center;
+		text-align: center;
+	}
+	.uploadResult ul li img{
+		width: 100px;
+	}
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
@@ -58,7 +77,15 @@
 				<td>${boardvo.updatedate }</td>
 			</tr>
 	</table>
-	
+	<div class="row">
+		<h3 class="text-primary">첨부파일</h3>
+		<div id="uploadResult">
+			<ul>
+				<!-- 첨부파일이 들어가는 위치 -->
+			</ul>
+		</div>
+	</div>
+
 	<%-- pageNum, searchType, keyword 를 파라미터로 전달받기 위한 디버깅 
 	 EL의 ${param.파라미터명}을 이용하면 확인 가능
 	 controller내부에서 get 파라미터에 SearchType을 선언해서 선언해도 되지만
@@ -111,6 +138,44 @@
 	</div>
 </body>
 <script type="text/javascript">
+	// 해당 게시글의 업로드된 파일 가져오는 로직
+	$(document).ready(function(){
+		(function(){
+			// {bno: bno} - bno라는 파라미터에는 bno라는 값을 넣겠다는 의미
+			// function(arr)같은 함수를 콜백함수라고함
+			$.getJSON("/board/getAttachList", {bno: bno}, function(arr){
+				console.log(arr);
+				
+				// ul 태그 내부에 태그를 추가해야하기 때문에 문자열을 생성
+				var str = "";
+				
+				$(arr).each(function(i, attach){
+					// 업로드된 파일이 이미지인 경우
+					if(attach.image){
+						var fileCallPath = encodeURIComponent(attach.uploadPath + "/s_" + attach.uuid + "_" + attach.fileName);
+						
+						str += "<li data-path='" + attach.uploadPath + "' data-uuid='"
+							+ attach.uuid + "' data-filename='" + attach.fileName
+							+ "' data-type='" + attach.image + "' ><div>"
+							+ "<img src='/display?fileName=" + fileCallPath + "'>"
+							+ "</div>"
+							+ "</li>";
+					}
+					// 업로드된 파일이 이미지가 아닌 경우
+					else{
+						str += "<li data-path='" + attach.uploadPath + "' data-uuid='"
+						+ attach.uuid + "' data-filename='" + attach.fileName
+						+ "' data-type='" + attach.image + "' ><div>"
+						+ "<span> " + attach.fileName + "</span><br>"
+						+ "<img src='/resources/attachicon.jpg' width='100px' height='100px'>"
+						+ "</div>"
+						+ "</li>";
+					}
+				});// end forEach
+				$("#uploadResult ul").html(str);
+			});// end getJSON
+		})();// end anonymous(익명함수를 선언하고 호출까지, 간단하게 작성할 수 있지만 여러번 호출할 수 없음)
+	});
 	var bno = ${boardvo.bno};	// var로 작성해서 재선언가능 - 나중에 로직 수정해야됨
 	function getAllList(){
 		$.getJSON("/replies/all/" + bno, function(data){
