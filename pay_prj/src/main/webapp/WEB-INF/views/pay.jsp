@@ -99,7 +99,6 @@
 					alert(msg);
 				});
 		}
-		iamport();
 	</script>
 	
 </body>

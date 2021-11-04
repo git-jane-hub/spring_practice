@@ -46,5 +46,8 @@ public class HomeController {
 	public void pay3() {
 		
 	}
-	
+	@GetMapping("/pay4")
+	public void pay4() {
+		
+	}	
 }
