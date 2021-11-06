@@ -23,7 +23,7 @@
 	          <h2>맛없지만 단백질 보충이 됩니다.</h2>
 	        </div>
 	        <div class="itemPrice">
-	          <p data-price="40000">40000원</p>
+	          <p data-price="100">10000원</p>
 	        </div>
 	        <div class="itemButton">
 	          <button class="orderBtn">주문하기</button>
@@ -38,7 +38,7 @@
 	          <h2>타건감이 죽여주는 키보드</h2>
 	        </div>
 	        <div class="itemPrice">
-	          <p data-price="200000">200000원</p>
+	          <p data-price="200">200000원</p>
 	        </div>
 	        <div class="itemButton">
 	          <button class="orderBtn">주문하기</button>
@@ -83,20 +83,31 @@
 					// 구매자 우편번호
 					buyer_postcode : '12345',
 				}, function(rsp){
-					console.log(rsp);
-					// 결제 성공시 처리할 내역
+					let msg;
 					if(rsp.success){
-						var msg = '결제가 완료되었습니다.';
-						msg += '고유 ID: ' + rsp.imp_uid;
-						msg += '상점 거래 ID: ' + rsp.merchant_uid;
-						msg += '결제 금액: ' + rsp.paid_amount;
-						msg += '카드 승인번호: ' + rsp.apply_num;
-					// 결제 실패시 처리할 내역
+						$.ajax({
+							type: 'post',
+							url: '/order',
+							headers: {
+								"Content-Type":"application/json",
+								"X-HTTP-Method-Override":"POST"
+							},
+							dataType: "text",
+							data: JSON.stringify({
+								merchant_uid: merchant_uid,
+								itemName: name,
+								amount: amount
+							}),
+							success: function(){
+								alert(name + " 결제가 완료되었습니다.");
+								console.log("결제완료됨")
+							}
+						});
 					}else{
-						var msg = '결제에 실패했습니다.';
-						msg += '에러내용: ' + rsp.error_msg;
+						msg = "결제에 실패했습니다. ";
+						msg += "실패 사유: " + rsp.error_msg;
+						alert(msg);
 					}
-					alert(msg);
 				});
 		}
 	</script>

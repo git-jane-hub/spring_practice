@@ -18,13 +18,13 @@
 		<div class="itemSection">
 	      <div class="itemCard">
 	        <div class="itemTitle">
-	          <h2>헬창을 위한 근육보충제</h2>
+	          <h1>블루투스 노이즈캔슬링 헤드폰</h1>
 	        </div>
 	        <div class="itemContent">
-	          <h2>맛없지만 단백질 보충이 됩니다.</h2>
+	          <h2>스튜디오 원음에 가까운 고품질 사운드</h2>
 	        </div>
 	        <div class="itemPrice">
-	          <p data-price="40000">40000원</p>
+	          <p data-price="100">$100</p>
 	        </div>
 	        <div class="itemButton">
 	          <button class="orderBtn">주문하기</button>
@@ -33,13 +33,28 @@
 	      
 	      <div class="itemCard">
 	        <div class="itemTitle">
-	          <h2>개발자를 위한 키보드</h2>
+	          <h1>저소음 적축 키보드</h1>
 	        </div>
 	        <div class="itemContent">
-	          <h2>타건감이 죽여주는 키보드</h2>
+	          <h2>키보드 내부 흡음패드를 장착</h2>
 	        </div>
 	        <div class="itemPrice">
-	          <p data-price="200000">200000원</p>
+	          <p data-price="200">$200</p>
+	        </div>
+	        <div class="itemButton">
+	          <button class="orderBtn">주문하기</button>
+	        </div>
+	      </div>
+
+	      <div class="itemCard">
+	        <div class="itemTitle">
+	          <h1>49인치 게이밍 모니터</h1>
+	        </div>
+	        <div class="itemContent">
+	          <h2>퀀텀 매트릭스 기술로 완성한 궁극의 화질</h2>
+	        </div>
+	        <div class="itemPrice">
+	          <p data-price="300">$300</p>
 	        </div>
 	        <div class="itemButton">
 	          <button class="orderBtn">주문하기</button>
@@ -59,7 +74,7 @@
 		button.addEventListener("click", function(event){
 			date = new Date();
 			merchant_uid = "order" + date.getTime;	// 주문번호 겹치지 않게 작성하기 위함
-			name = this.parentElement.parentElement.querySelector("h2").innerHTML;
+			name = this.parentElement.parentElement.querySelector("h1").innerHTML;
 			amount = this.parentElement.parentElement.querySelector("p").dataset.price;
 			iamport();
 			console.log(button);
@@ -80,7 +95,7 @@
 				// 금액 - 바뀌어야됨
 				amount : amount,
 				// 구매자 이메일
-				buyer_email : 'iamport@siot.do',
+				buyer_email : 'choiwodls@naver.com',
 				// 구매자 번호
 				buyer_tel : '010-1234-5678',
 				// 구매자 주소
@@ -88,24 +103,35 @@
 				// 구매자 우편번호
 				buyer_postcode : '12345',
 			}, function(rsp){
-				console.log(rsp);
-				// 결제 성공시 처리할 내역
 				let msg;
+				/*
 				if(rsp.success){
-					msg = '결제가 완료되었습니다.';
-					msg += '고유 ID: ' + rsp.imp_uid;
-					msg += '상점 거래 ID: ' + rsp.merchant_uid;
-					msg += '결제 금액: ' + rsp.paid_amount;
-					msg += '카드 승인번호: ' + rsp.apply_num;
-				// 결제 실패시 처리할 내역
+					$.ajax({
+						type: 'post',
+						url: '/order',
+						headers: {
+							"Content-Type":"application/json",
+							"X-HTTP-Method-Override":"POST"
+						},
+						dataType: "text",
+						data: JSON.stringify({
+							merchant_uid: merchant_uid,
+							itemName: name,
+							amount: amount
+						}),
+						success: function(){
+							alert(name + " 결제가 완료되었습니다.");
+							console.log("결제완료됨")
+						}
+					});
 				}else{
-					msg = '결제에 실패했습니다.';
-					msg += '에러내용: ' + rsp.error_msg;
+					msg = "결제에 실패했습니다. ";
+					msg += "실패 사유: " + rsp.error_msg;
+					alert(msg);
 				}
-				alert(msg);
+				*/
 			});
 	}
-	iamport();
 	</script>	
 </body>
 </html>
