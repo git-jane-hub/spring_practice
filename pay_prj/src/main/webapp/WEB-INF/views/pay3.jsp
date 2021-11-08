@@ -73,7 +73,7 @@
 	btns.forEach(function(button){	// 향상된 for문 같은 역할
 		button.addEventListener("click", function(event){
 			date = new Date();
-			merchant_uid = "order" + date.getTime;	// 주문번호 겹치지 않게 작성하기 위함
+			merchant_uid = "order" + date.getTime();	// 주문번호 겹치지 않게 작성하기 위함
 			name = this.parentElement.parentElement.querySelector("h1").innerHTML;
 			amount = this.parentElement.parentElement.querySelector("p").dataset.price;
 			iamport();
@@ -104,7 +104,6 @@
 				buyer_postcode : '12345',
 			}, function(rsp){
 				let msg;
-				/*
 				if(rsp.success){
 					$.ajax({
 						type: 'post',
@@ -129,7 +128,6 @@
 					msg += "실패 사유: " + rsp.error_msg;
 					alert(msg);
 				}
-				*/
 			});
 	}
 	</script>	

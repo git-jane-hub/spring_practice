@@ -3,6 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.ict.mapper.PayMapper">
 	<insert id="insertPay">
-		INSERT INTO pay_tbl (merchant_uid, itemName, amount) VALUES (#{merchant_uid}, #{itemName}, #{amount})
+		INSERT INTO pay_tbl (merchant_uid, itemName, amount) 
+		VALUES (#{merchant_uid}, #{itemName}, #{amount})
 	</insert>
 </mapper>
