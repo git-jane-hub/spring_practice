@@ -28,4 +28,6 @@
 	<!-- 스프링 인터셉터 대신 controller에서 어노테이션을 사용해 시큐리티를 적용시키기위해 작성 -->
 	<security:global-method-security pre-post-annotations="enabled" secured-annotations="enabled" />
 	
+	<!-- 소셜로그인으로 추가 -->
+	<beans:bean id="naverLoginBO" class="org.ict.naver.NaverLoginBO" />
 </beans:beans>

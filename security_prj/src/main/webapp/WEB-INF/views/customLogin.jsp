@@ -20,5 +20,12 @@
 		<!-- 로그인 이후 로직을 실행할 때, 해당 csrf값도 동일한지 여부를 확인(csrf 공격 방지) -->
 		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
 	</form>
+	
+	<!-- '/naverLogin'으로 접근하면 나타나는 네이버로그인 탭 -->
+	<c:if test="${url ne null }">
+		<div id="naver_id_login">
+			<a href="${url }"><img width="150" src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png" /></a>
+		</div>
+	</c:if>
 </body>
 </html>
