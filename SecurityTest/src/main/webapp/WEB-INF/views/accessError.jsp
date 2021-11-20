@@ -9,8 +9,15 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>접근 실패!</h1>
-	<h2><c:out value="${SPRING_SECURITY_403_EXCEPTION.getMessage() }" /></h2>
-	<h2><c:out value="${errorMessage }" /></h2>
+	<div>
+		<i class="fas fa-exclamation-triangle"></i>
+		<h1><c:out value="${errorMessage }"/></h1>
+		<p>연결하려는 페이지에 접근권한이 없어 접근이 거부되었습니다.</p>
+		<p>서비스 이용에 불편을 드려 죄송합니다.</p>
+	</div>
+	<div>
+		<a href="#"><button>이전페이지</button></a>
+		<a href="#"><button>홈으로</button></a>
+	</div>
 </body>
 </html>
