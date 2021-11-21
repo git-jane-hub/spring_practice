@@ -16,12 +16,12 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 
 import lombok.Data;
 
-// 인증 요청을 구성하는 파라미터
 public class NaverLoginBO {
+	/* 인증 요청을 구성하는 파라미터 */
 	// 애플리케이션 등록 후 발급받은 클라이언트 아이디
-	private final static String CLIENT_ID = "8bM3yS5u0GDXvcCWG_0v";
-	// 
-	private final static String CLIENT_SECRET = "BmXFiZrYVl";
+	private final static String CLIENT_ID = "";	// 여기 채워넣어야 함
+	// 인증 과정에 대한 구분 값으로 code로 값이 고정 
+	private final static String CLIENT_SECRET = "";	// 여기 채워넣어야 함
 	// callback 주소라고 입력한 곳으로 컨트롤러에서 첫 로그인 시 DB에 계정정보를 저장하도록 처리
 	private final static String REDIRECT_URI = "http://localhost:8181/naver/login";
 	// 애플리케이션이 생성한 상태 토큰(고정값)
@@ -59,6 +59,7 @@ public class NaverLoginBO {
 	
 	// 세션 유효성 검증을 위한 난수 생성기
 	private String generateRandomString() {
+		// 네이버 로그인 계정에 대한 고유값을 부여 
 		return UUID.randomUUID().toString();
 	}
 

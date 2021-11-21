@@ -68,8 +68,10 @@ public class HomeController {
 	
 	@RequestMapping(value="/naverLogin", method=RequestMethod.GET)
 	public String login (HttpSession session) {
+		// 네이버 아이디로 인증 URL을 생성하기 위해 naverLoginBO 클래스의 getAuthorizationUrl 메서드 호출 
 		String naverAuthUrl = bo.getAuthorizationUrl(session);
 		System.out.println("네이버: " + naverAuthUrl);
+		// 네이버 링크를 세션에 저장
 		session.setAttribute("url", naverAuthUrl);
 		
 		// 리다이렉트
@@ -131,7 +133,7 @@ public class HomeController {
 		user.setUserName(userName);
 		System.out.println("INSERT하기 전 체크: " + user);
 		
-		// DB에 해당 유저가 없을 경우 join
+		// DB에 해당 유저가 없을 경우 join 실행
 		if(service.read(user.getUserid()) == null) {
 			service.addMember(user);
 		}

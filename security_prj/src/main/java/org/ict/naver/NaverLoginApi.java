@@ -2,7 +2,7 @@ package org.ict.naver;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
 
-// naver login api 와 연동
+// NAVER Login API와 연동을 위해 DefaultApi20을 상속한 NaverLoginApi 클래스 생
 public class NaverLoginApi extends DefaultApi20{
 	
 	protected NaverLoginApi() {
